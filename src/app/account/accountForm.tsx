@@ -81,11 +81,14 @@ export default function AccountForm({ user }: { user: User | null }) {
       {/* ... */}
 
       <div>
-        <label htmlFor="email">Email</label>
-        <input id="email" type="text" value={user?.email} disabled />
+        <label htmlFor="email">Email - </label>
+        {user?.email ? 
+          (<input id="email" type="text" value={"elijam64357@gmail.com"} disabled />) 
+          : <input id="email" type="text" value={"elijam64357@gmail.com"} disabled/>
+        }
       </div>
       <div>
-        <label htmlFor="fullName">Full Name</label>
+        <label htmlFor="fullName">Full Name - </label>
         <input
           id="fullName"
           type="text"
@@ -94,7 +97,7 @@ export default function AccountForm({ user }: { user: User | null }) {
         />
       </div>
       <div>
-        <label htmlFor="username">Username</label>
+        <label htmlFor="username">Username - </label>
         <input
           id="username"
           type="text"
@@ -103,7 +106,7 @@ export default function AccountForm({ user }: { user: User | null }) {
         />
       </div>
       <div>
-        <label htmlFor="website">Website</label>
+        <label htmlFor="website">Website - </label>
         <input
           id="website"
           type="url"
