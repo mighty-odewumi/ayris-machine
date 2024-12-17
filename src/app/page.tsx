@@ -1,11 +1,8 @@
-// import Image from "next/image";
-// import main from "../../public/assets/welcome-home.png";
-
 import Image from "next/image";
 
 export default function Home() {
   return (
-    <div className={`bg-[url("../../public/assets/background.png")] bg-cover w-full h-full`}>
+    <div className={`bg-[url("../../public/assets/background.png")] bg-cover w-full h-full cursor-pointer`}>
       <Image 
         src="/assets/welcome-home.png"
         alt="Home page"
