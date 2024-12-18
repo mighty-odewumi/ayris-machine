@@ -3,7 +3,7 @@ import { signup } from '../actions';
 export default function SignupPage() {
   return (
 
-    <form className={`signup-form flex flex-col items-center justify-center p t-96`}>
+    <form className={`signup-form flex flex-col items-center justify-center`}>
       <div className='ml-2 mt-36 mb-48'>
         {/* <label htmlFor="username" 
           className="text-white"
@@ -39,8 +39,6 @@ export default function SignupPage() {
           <input id="password" name="password" type="password" required placeholder='Password' className='text-white bg-black w-20'/>
         </div>
       </section>
-        
-      
     </form>
   )
 }
