@@ -17,8 +17,9 @@
 body {
   color: var(--foreground);
   /* background: url("../../public/assets/background.png"); */
-  font-family: Arial, Helvetica, sans-serif;
+  /* font-family: Arial, Helvetica, sans-serif; */
 }
+
 .signup-form {
   background: url("../../public/assets/register-edit1.png");
   background-size: cover;
