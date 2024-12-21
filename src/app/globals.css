@@ -16,7 +16,7 @@
 
 body {
   color: var(--foreground);
-  /* background: url("../../public/assets/background.png"); */
+  background: url("../../public/assets/background.png");
   /* font-family: Arial, Helvetica, sans-serif; */
 }
 
