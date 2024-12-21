@@ -36,7 +36,7 @@ export default function UserList() {
         setProfiles(data || [])
         setTotalCount(count || 0)
       } catch (error) {
-        setError(error.message)
+        setError((error as Error).message)
       } finally {
         setLoading(false)
       }
