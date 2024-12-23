@@ -1,3 +1,5 @@
+"use client";
+
 import ImgMap from "@/components/responsiveMap";
 
 export default function Home() {
