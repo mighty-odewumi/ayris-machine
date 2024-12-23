@@ -30,6 +30,6 @@ export async function GET(request: NextRequest) {
   }
 
   // return the user to an error page with some instructions
-  redirectTo.pathname = '/error'
+  redirectTo.pathname = '/register2'
   return NextResponse.redirect(redirectTo)
 }
