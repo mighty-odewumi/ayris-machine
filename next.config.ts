@@ -5,6 +5,12 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  webpack: (config, { isServer }) => {
+    if (isServer) {
+        config.externals.push('image-map-resizer');
+    }
+    return config;
+},
 };
 
 module.exports = nextConfig;
