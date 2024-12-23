@@ -1,8 +1,9 @@
 import { createClient } from '@/utils/supabase/server'
+import Image from 'next/image'
 import Link from 'next/link'
 
 export default async function Profiles() {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: posts, error } = await supabase
     .from('posts')
     .select('*, profiles(id, full_name, avatar_url)')
@@ -44,7 +45,7 @@ export default async function Profiles() {
           return (
             <div key={userId} className="border border-gray-700 p-4 rounded-lg">
               <div className="flex items-center mb-4">
-                <img 
+                <Image 
                   src={user.avatar_url || '/placeholder.svg?height=48&width=48'} 
                   alt={user.full_name} 
                   className="w-12 h-12 rounded-full mr-4"

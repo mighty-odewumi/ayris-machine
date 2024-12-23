@@ -3,15 +3,15 @@ import { redirect } from 'next/navigation'
 import PostForm from '@/components/PostForm'
 
 export default async function WritePage() {
-  const supabase = createClient()
+  const supabase = await createClient()
   
-  // const { data: { user } } = await supabase.auth.getUser()
+  const { data: { user } } = await supabase.auth.getUser()
   
-  // if (!user) {
-  //   // If the user is not logged in, redirect to the login page
-  //   // You may need to adjust this path to match your login page route
-  //   redirect('/login')
-  // }
+  if (!user) {
+    // If the user is not logged in, redirect to the login page
+    // You may need to adjust this path to match your login page route
+    redirect('/login')
+  }
 
   return (
     <div className="max-w-4xl mx-auto p-4">

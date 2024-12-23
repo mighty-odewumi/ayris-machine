@@ -1,9 +1,10 @@
 import { createClient } from '@/utils/supabase/server'
 import { notFound } from 'next/navigation'
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default async function Post({ params }: { params: { id: string } }) {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: post, error } = await supabase
     .from('posts')
     .select('*, profiles(full_name, avatar_url)')
@@ -19,7 +20,7 @@ export default async function Post({ params }: { params: { id: string } }) {
     <div className="max-w-2xl mx-auto p-4">
       <h1 className="text-3xl font-bold mb-4 text-white">{post.title}</h1>
       <div className="flex items-center mb-4 text-sm text-gray-500">
-        <img 
+        <Image 
           src={post.profiles.avatar_url || '/placeholder.svg?height=32&width=32'} 
           alt={post.profiles.full_name} 
           className="w-8 h-8 rounded-full mr-2"
@@ -33,7 +34,7 @@ export default async function Post({ params }: { params: { id: string } }) {
         </Link>
       </div>
       <div className="prose prose-invert">
-        {post.content.split('\n').map((paragraph, index) => (
+        {post.content.split('\n').map((paragraph: string, index: number) => (
           <p key={index}>{paragraph}</p>
         ))}
       </div>
