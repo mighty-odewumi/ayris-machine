@@ -53,7 +53,7 @@ export default function PostForm() {
           value={title}
           onChange={(e) => setTitle(e.target.value)}
           required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-black text-white"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm ring-2 ring-white focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-black text-white"
         />
       </div>
       <div>
@@ -64,7 +64,7 @@ export default function PostForm() {
           onChange={(e) => setContent(e.target.value)}
           required
           rows={5}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-black text-white"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm ring-2 ring-white focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-black text-white"
         />
       </div>
       <div>
@@ -74,7 +74,7 @@ export default function PostForm() {
           value={category}
           onChange={(e) => setCategory(e.target.value)}
           required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-black text-white"
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm ring-2 ring-white focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-black text-white"
         >
           <option value="">Select a category</option>
           {categories.map((cat) => (
