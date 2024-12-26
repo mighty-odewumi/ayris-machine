@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 'use client';
 
 import { useState, useEffect } from 'react';
@@ -35,7 +36,7 @@ export default function UserList() {
         setProfiles(data || [])
         setTotalCount(count || 0)
       } catch (error) {
-        setError(error.message)
+        setError((error as Error).message)
       } finally {
         setLoading(false)
       }
@@ -73,4 +74,3 @@ export default function UserList() {
     </div>
   )
 }
-

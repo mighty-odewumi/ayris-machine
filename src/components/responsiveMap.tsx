@@ -1,15 +1,16 @@
 "use client";
 
 import Image from "next/image";
-// @ts-expect-error No types available
 import imageMapResize from "image-map-resizer";
 import { useEffect } from "react";
 
 const ImgMap = () => {
 
+  // const mapResizer = require('image-map-resizer');;
+
   useEffect(() => {
     const img = document.querySelector<HTMLImageElement>("img[useMap]");
-    if (img) {
+    if (img && typeof window !== 'undefined') {
       img.onload = () => imageMapResize();
     }
   }, [])

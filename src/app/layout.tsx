@@ -1,23 +1,6 @@
 import type { Metadata } from "next";
-import { Cinzel_Decorative, Geist, Geist_Mono, UnifrakturMaguntia } from "next/font/google";
-import { Cinzel } from "next/font/google";
+import { UnifrakturMaguntia } from "next/font/google";
 import "./globals.css";
-
-const geistSans = Geist({
-  variable: "--font-geist-sans",
-  subsets: ["latin"],
-});
-
-const geistMono = Geist_Mono({
-  variable: "--font-geist-mono",
-  subsets: ["latin"],
-});
-
-const cinzel = Cinzel_Decorative({
-  variable: "--font-cinzel",
-  subsets: ["latin"],
-  weight: "400",
-})
 
 const unifrak = UnifrakturMaguntia({
   variable: "--font-unifrak",

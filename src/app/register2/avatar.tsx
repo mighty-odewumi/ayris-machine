@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-unused-vars */
 'use client'
 import React, { useEffect, useState } from 'react'
 import { createClient } from '@/utils/supabase/client'
@@ -77,7 +78,7 @@ export default function Avatar({
         <div className="avatar no-image" style={{ height: size, width: size }} />
       )}
       <div style={{ width: size }}>
-        <label className="button primary block" htmlFor="single">
+        <label className="button primary block cursor-pointer" htmlFor="single">
           {uploading ? 'Uploading ...' : 'Upload'}
         </label>
         <input
