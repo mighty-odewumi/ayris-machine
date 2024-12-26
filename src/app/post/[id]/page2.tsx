@@ -1,7 +1,7 @@
 import { createClient } from '@/utils/supabase/server'
-import { notFound } from 'next/navigation'
-import Link from 'next/link'
-import Image from 'next/image'
+// import { notFound } from 'next/navigation'
+// import Link from 'next/link'
+// import Image from 'next/image'
 
 export default async function Post({ params }: { params: { id: string } }) {
   const supabase = await createClient();
