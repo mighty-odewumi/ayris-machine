@@ -1,8 +1,9 @@
 import { createClient } from '@/utils/supabase/server'
+import Image from 'next/image'
 import Link from 'next/link'
 
 export default async function Posts() {
-  const supabase = createClient()
+  const supabase = await createClient()
   const { data: { user } } = await supabase.auth.getUser()
   const { data: posts, error } = await supabase
     .from('posts')
@@ -51,7 +52,7 @@ export default async function Posts() {
             </h2>
             <p className="text-gray-400 mb-2">{post.content.substring(0, 150)}...</p>
             <div className="flex items-center text-sm text-gray-500">
-              <img 
+              <Image 
                 src={post.profiles.avatar_url || '/placeholder.svg?height=32&width=32'} 
                 alt={post.profiles.full_name} 
                 className="w-8 h-8 rounded-full mr-2"
