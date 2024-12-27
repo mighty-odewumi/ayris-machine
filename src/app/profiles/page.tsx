@@ -4,18 +4,44 @@ import Link from 'next/link'
 
 export default async function Profiles() {
   const supabase = await createClient()
-  const { data: posts, error } = await supabase
+  
+  // First fetch all posts
+  const { data: posts, error: postsError } = await supabase
     .from('posts')
-    .select('*, profiles(id, full_name, avatar_url)')
+    .select('*')
     .order('created_at', { ascending: false })
 
-  if (error) {
-    console.error(error)
+  if (postsError) {
+    console.error('Posts error:', postsError)
     return <div>Error loading posts</div>
   }
 
-  const categories = [...new Set(posts.map(post => post.category))]
-  const users = [...new Set(posts.map(post => post.profiles.id))]
+  // Then fetch all profiles
+  const { data: profiles, error: profilesError } = await supabase
+    .from('profiles')
+    .select('*')
+
+  if (profilesError) {
+    console.error('Profiles error:', profilesError)
+    return <div>Error loading profiles</div>
+  }
+
+  // Create a map of profiles for easy lookup
+  const profileMap = new Map(profiles.map(profile => [profile.id, profile]))
+
+  // Combine posts with their profile data
+  const postsWithProfiles = posts.map(post => ({
+    ...post,
+    profiles: profileMap.get(post.user_id)
+  })).filter(post => post.profiles) // Only keep posts where we found the profile
+
+  const categories = [...new Set(postsWithProfiles.map(post => post.category))]
+  const users = [...new Set(profiles.map(profile => profile.id))]
+
+  // Debug logging
+  console.log('Posts:', posts)
+  console.log('Profiles:', profiles)
+  console.log('Combined:', postsWithProfiles)
 
   return (
     <div className="max-w-4xl mx-auto p-4">
@@ -35,22 +61,29 @@ export default async function Profiles() {
         </div>
       </div>
       <div className="mb-4">
-        <p className="text-white">Total Posts: {posts.length}</p>
+        <p className="text-white">Total Posts: {postsWithProfiles.length}</p>
         <p className="text-white">Total Users: {users.length}</p>
       </div>
       <div className="space-y-8">
         {users.map(userId => {
-          const userPosts = posts.filter(post => post.profiles.id === userId)
-          const user = userPosts[0].profiles
+          const userPosts = postsWithProfiles.filter(post => post.profiles.id === userId)
+          const userProfile = profileMap.get(userId)
+          
+          if (!userProfile || userPosts.length === 0) return null
+
           return (
             <div key={userId} className="border border-gray-700 p-4 rounded-lg">
               <div className="flex items-center mb-4">
                 <Image 
-                  src={user.avatar_url || '/placeholder.svg?height=48&width=48'} 
-                  alt={user.full_name} 
+                  src={userProfile.avatar_url || '/placeholder.svg'} 
+                  alt={userProfile.full_name || 'User'} 
+                  width={48}
+                  height={48}
                   className="w-12 h-12 rounded-full mr-4"
                 />
-                <h2 className="text-2xl font-semibold text-white">{user.full_name}</h2>
+                <h2 className="text-2xl font-semibold text-white">
+                  {userProfile.full_name}
+                </h2>
               </div>
               <div className="space-y-4">
                 {userPosts.map(post => (
