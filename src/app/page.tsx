@@ -11,7 +11,7 @@ export default function Home() {
   )
 
   return (
-    <main className={`container bg-[url("../../public/assets/background.png")]`}>
+    <main className={`container bg-[url("../../public/assets/background-edit1.png")]`}>
       <MyMap />
     </main>
   );

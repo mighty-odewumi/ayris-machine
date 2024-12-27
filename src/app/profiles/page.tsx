@@ -4,8 +4,8 @@ import Link from 'next/link'
 
 export default async function Profiles() {
   const supabase = await createClient()
-  
-  // First fetch all posts
+
+  // Fetch all posts first
   const { data: posts, error: postsError } = await supabase
     .from('posts')
     .select('*')
@@ -16,7 +16,7 @@ export default async function Profiles() {
     return <div>Error loading posts</div>
   }
 
-  // Then fetch all profiles
+  // Fetch all profiles
   const { data: profiles, error: profilesError } = await supabase
     .from('profiles')
     .select('*')
@@ -38,7 +38,6 @@ export default async function Profiles() {
   const categories = [...new Set(postsWithProfiles.map(post => post.category))]
   const users = [...new Set(profiles.map(profile => profile.id))]
 
-  // Debug logging
   console.log('Posts:', posts)
   console.log('Profiles:', profiles)
   console.log('Combined:', postsWithProfiles)
@@ -50,8 +49,8 @@ export default async function Profiles() {
         <h2 className="text-xl font-semibold mb-2 text-white">Categories</h2>
         <div className="flex flex-wrap gap-2">
           {categories.map(category => (
-            <Link 
-              key={category} 
+            <Link
+              key={category}
               href={`/category/${category.toLowerCase()}`}
               className="px-3 py-1 bg-gray-700 text-white rounded-full hover:bg-gray-600"
             >
@@ -68,15 +67,15 @@ export default async function Profiles() {
         {users.map(userId => {
           const userPosts = postsWithProfiles.filter(post => post.profiles.id === userId)
           const userProfile = profileMap.get(userId)
-          
+
           if (!userProfile || userPosts.length === 0) return null
 
           return (
             <div key={userId} className="border border-gray-700 p-4 rounded-lg">
               <div className="flex items-center mb-4">
-                <Image 
-                  src={userProfile.avatar_url || '/placeholder.svg'} 
-                  alt={userProfile.full_name || 'User'} 
+                <Image
+                  src={userProfile.avatar_url || '/placeholder.svg'}
+                  alt={userProfile.full_name || 'User'}
                   width={48}
                   height={48}
                   className="w-12 h-12 rounded-full mr-4"
