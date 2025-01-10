@@ -1,6 +1,14 @@
+"use server"
+
 import { createClient } from '@/utils/supabase/server'
 import Image from 'next/image'
 import Link from 'next/link'
+
+const getAvatarUrl = (avatarUrl: string | null) => {
+  if (!avatarUrl) return '/welcome-home-edit1.png'
+  if (avatarUrl.startsWith('http') || avatarUrl.startsWith('/')) return avatarUrl
+  return `https://${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/avatars/${avatarUrl}`
+}
 
 export default async function Profiles() {
   const supabase = await createClient()
@@ -38,6 +46,7 @@ export default async function Profiles() {
   const categories = [...new Set(postsWithProfiles.map(post => post.category))]
   const users = [...new Set(profiles.map(profile => profile.id))]
 
+
   console.log('Posts:', posts)
   console.log('Profiles:', profiles)
   console.log('Combined:', postsWithProfiles)
@@ -74,7 +83,7 @@ export default async function Profiles() {
             <div key={userId} className="border border-gray-700 p-4 rounded-lg">
               <div className="flex items-center mb-4">
                 <Image
-                  src={userProfile.avatar_url || '/placeholder.svg'}
+                  src={getAvatarUrl(userProfile.avatar_url)}
                   alt={userProfile.full_name || 'User'}
                   width={48}
                   height={48}
