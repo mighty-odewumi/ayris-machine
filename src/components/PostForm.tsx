@@ -4,7 +4,7 @@ import { useState } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
 
-const categories = ['Arts', 'Location', 'Era/Style'] // Add more categories as needed
+const categories = ["Location", "Era-Style", "Empresses", "Year", "Mythology", "Philosophy", "Medium", "Dream Engine", "Etherith", "Banners", "Heaven", "Music", "Library", "Court", "Empire", "Army", "Market", "Treasury"] 
 
 export default function PostForm() {
   const [title, setTitle] = useState('')
@@ -82,7 +82,7 @@ export default function PostForm() {
           ))}
         </select>
       </div>
-      <div className="flex justify-end space-x-2"> {/* Added div for button spacing */}
+      <div className="flex justify-end space-x-2"> 
       <button
         type="submit"
         disabled={loading}
