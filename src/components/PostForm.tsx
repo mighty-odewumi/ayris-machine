@@ -3,8 +3,7 @@
 import { useState } from 'react'
 import { createClient } from '@/utils/supabase/client'
 import { useRouter } from 'next/navigation'
-
-const categories = ["Location", "Era-Style", "Empresses", "Year", "Mythology", "Philosophy", "Medium", "Dream Engine", "Etherith", "Banners", "Heaven", "Music", "Library", "Court", "Empire", "Army", "Market", "Treasury"] 
+import { categories } from '@/app/constants/categories'; 
 
 export default function PostForm() {
   const [title, setTitle] = useState('')
