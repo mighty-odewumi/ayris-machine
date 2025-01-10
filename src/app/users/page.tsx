@@ -57,7 +57,10 @@ export default function UserList() {
             <div className="flex items-center space-x-4">
               <div className="w-12 h-12 rounded-full bg-gray-200 flex items-center justify-center">
                 {profile.avatar_url ? (
-                  <Image src={profile.avatar_url} alt={profile.username || 'User'} className="w-full h-full rounded-full object-cover" />
+                  <Image src={profile.avatar_url} alt={profile.username || 'User'} className="w-full h-full rounded-full object-cover" 
+                  width={300}
+                  height={300}
+                  />
                 ) : (
                   <span className="text-xl font-bold">{(profile?.username || profile?.email)?.charAt(0)?.toUpperCase()}</span>
                 )}
