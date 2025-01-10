@@ -1,1 +1,1 @@
-export const categories = ["All", "Location", "Era-Style", "Empresses", "Year", "Mythology", "Philosophy", "Medium", "Dream Engine", "Etherith", "Banners", "Heaven", "Music", "Library", "Court", "Empire", "Army", "Market", "Treasury", ];
+export const categories = ["All", "Art", "Location", "Era-Style", "Empresses", "Year", "Mythology", "Philosophy", "Medium", "Dream Engine", "Etherith", "Banners", "Heaven", "Music", "Library", "Court", "Empire", "Army", "Market", "Treasury", ];
