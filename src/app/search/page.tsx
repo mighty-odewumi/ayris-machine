@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { categories } from "@/app/constants/categories";
+import { categories } from "@/constants/categories1";
 
 
 export default function SearchPage() {
@@ -29,13 +29,22 @@ export default function SearchPage() {
         .select('*')
         
       // Add search filter if query exists
-      if (searchQuery) {
-        query = query.ilike('title', `%${searchQuery}%`)
-      }
+      // if (searchQuery) {
+      //   query = query.ilike('title', `%${searchQuery}%`)
+      // }
       
-      // Add category filter if not 'all'
+      // // Add category filter if not 'all'
+      // if (selectedCategory !== 'all') {
+      //   query = query.eq('category', selectedCategory)
+      // }
+
       if (selectedCategory !== 'all') {
-        query = query.eq('category', selectedCategory)
+        const [group, subCategory] = selectedCategory.split(':')
+        if (subCategory) {
+          query = query.eq('category', subCategory)
+        } else {
+          query = query.eq('category_group', group)
+        }
       }
       
       const { data, error } = await query
