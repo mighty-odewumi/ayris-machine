@@ -82,7 +82,7 @@ export default function PostForm() {
         const fileName = `${Math.random()}.${fileExt}`
         const filePath = `${user.id}/${fileName}`
 
-        const { error: uploadError, data } = await supabase.storage
+        const { error: uploadError } = await supabase.storage
           .from('post-images')
           .upload(filePath, imageFile)
 
@@ -121,31 +121,7 @@ export default function PostForm() {
 
   return (
     <form onSubmit={handleSubmit} className="space-y-4">
-      <div>
-        <label htmlFor="title" className="block text-sm font-medium text-white">Title</label>
-        <input
-          type="text"
-          id="title"
-          value={title}
-          onChange={(e) => setTitle(e.target.value)}
-          required
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm ring-2 ring-white focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-black text-white"
-        />
-      </div>
-
-      <div>
-        <label htmlFor="content" className="block text-sm font-medium text-white">Content</label>
-        <textarea
-          id="content"
-          value={content}
-          onChange={(e) => setContent(e.target.value)}
-          required
-          rows={5}
-          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm ring-2 ring-white focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-black text-white"
-        />
-      </div>
-
-      <div>
+       <div>
         <label className="block text-sm font-medium text-white mb-2">Image (optional)</label>
         <div className="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center hover:border-gray-400 transition-colors">
           <input
@@ -179,7 +155,7 @@ export default function PostForm() {
 
         {imagePreview && (
           <div className="mt-4 relative">
-            <img 
+            <Image 
               src={imagePreview} 
               alt="Preview" 
               className="max-h-48 rounded-lg mx-auto"
@@ -193,6 +169,30 @@ export default function PostForm() {
             </button>
           </div>
         )}
+      </div>
+
+      <div>
+        <label htmlFor="title" className="block text-sm font-medium text-white">Title</label>
+        <input
+          type="text"
+          id="title"
+          value={title}
+          onChange={(e) => setTitle(e.target.value)}
+          required
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm ring-2 ring-white focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-black text-white"
+        />
+      </div>
+
+      <div>
+        <label htmlFor="content" className="block text-sm font-medium text-white">Content</label>
+        <textarea
+          id="content"
+          value={content}
+          onChange={(e) => setContent(e.target.value)}
+          required
+          rows={5}
+          className="mt-1 block w-full rounded-md border-gray-300 shadow-sm ring-2 ring-white focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50 bg-black text-white"
+        />
       </div>
 
       <div>
