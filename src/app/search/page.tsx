@@ -60,6 +60,7 @@ export default function SearchPage() {
 
   useEffect(() => {
     searchPosts()
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery, selectedCategory])
 
   return (
