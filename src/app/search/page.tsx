@@ -3,6 +3,7 @@
 import { useState, useEffect } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { categories } from "@/constants/categories1";
+import Image from "next/image";
 
 
 export default function SearchPage() {
@@ -12,6 +13,7 @@ export default function SearchPage() {
     title: string
     content: string
     category: string
+    image_url?: string
   }
   
   const [posts, setPosts] = useState<Post[]>([])
@@ -105,6 +107,17 @@ export default function SearchPage() {
           ) : (
             posts.map((post) => (
               <div key={post.id} className="border p-4 rounded hover:shadow-md transition-shadow">
+                {post.image_url && (
+                  <div className="relative w-full h-48 mb-4">
+                    <Image
+                      src={post.image_url}
+                      alt={post.title}
+                      fill
+                      className="rounded-lg object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                  </div>
+                )}
                 <h2 className="text-xl font-semibold">
                   <a 
                     href={`/posts/${post.id}`} 
