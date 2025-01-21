@@ -5,6 +5,9 @@ const nextConfig: NextConfig = {
   typescript: {
     ignoreBuildErrors: true,
   },
+  images: {
+    domains: ['salnawasbyrsrngrtugz.supabase.co'], 
+  },
   webpack: (config, { isServer }) => {
     if (isServer) {
         config.externals.push('image-map-resizer');
