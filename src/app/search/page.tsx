@@ -120,7 +120,7 @@ export default function SearchPage() {
                 )}
                 <h2 className="text-xl font-semibold">
                   <a 
-                    href={`/posts/${post.id}`} 
+                    href={`/post/${post.id}`} 
                     className="text-blue-600 hover:text-blue-800"
                   >
                     {post.title}
