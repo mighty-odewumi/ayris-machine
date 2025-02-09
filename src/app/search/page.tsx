@@ -2,93 +2,112 @@
 
 import { useState, useEffect } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { categories } from "@/constants/categories1";
+import { categoryGroups } from "@/constants/categories";
 import Image from "next/image";
 
-
 export default function SearchPage() {
-
   interface Post {
     id: string
     title: string
     content: string
     category: string
+    category_group: string
     image_url?: string
   }
   
   const [posts, setPosts] = useState<Post[]>([])
   const [searchQuery, setSearchQuery] = useState('')
+  const [selectedGroup, setSelectedGroup] = useState('all')
   const [selectedCategory, setSelectedCategory] = useState('all')
   const [loading, setLoading] = useState(false)
   
   const supabase = createClientComponentClient()
 
-  const searchPosts = async () => {
-    setLoading(true)
-    try {
-      let query = supabase
-        .from('posts')
-        .select('*')
-        
-      // Add search filter if query exists
-      // if (searchQuery) {
-      //   query = query.ilike('title', `%${searchQuery}%`)
-      // }
-      
-      // // Add category filter if not 'all'
-      // if (selectedCategory !== 'all') {
-      //   query = query.eq('category', selectedCategory)
-      // }
-
-      if (selectedCategory !== 'all') {
-        const [group, subCategory] = selectedCategory.split(':')
-        if (subCategory) {
-          query = query.eq('category', subCategory)
-        } else {
-          query = query.eq('category_group', group)
-        }
-      }
-      
-      const { data, error } = await query
-      
-      if (error) throw error
-      setPosts(data || [])
-    } catch (error) {
-      console.error('Error searching posts:', error)
-    } finally {
-      setLoading(false)
-    }
-  }
-
+  
   useEffect(() => {
+    const searchPosts = async () => {
+      setLoading(true)
+      try {
+        let query = supabase
+          .from('posts')
+          .select('*')
+          
+        // Add search filter if query exists
+        if (searchQuery) {
+          query = query.or(`title.ilike.%${searchQuery}%,content.ilike.%${searchQuery}%`)
+        }
+        
+        // Add category group filter
+        if (selectedGroup !== 'all') {
+          query = query.eq('category_group', selectedGroup)
+        }
+
+        // Add specific category filter
+        if (selectedCategory !== 'all') {
+          query = query.eq('category', selectedCategory)
+        }
+        
+        const { data, error } = await query
+        
+        if (error) throw error
+        setPosts(data || [])
+      } catch (error) {
+        console.error('Error searching posts:', error)
+      } finally {
+        setLoading(false)
+      }
+    }
     searchPosts()
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [searchQuery, selectedCategory])
+  }, [searchQuery, selectedGroup, selectedCategory ])
+
+  // Reset selected category when group changes
+  useEffect(() => {
+    setSelectedCategory('all')
+  }, [selectedGroup])
+
+  // Get titles from categoryGroups
+  const groupTitles = ['all', ...categoryGroups.map(group => group.title)]
+
+  // Get categories for selected group
+  const filteredCategories = ['all', ...(selectedGroup === 'all' 
+    ? categoryGroups.flatMap(group => group.categories)
+    : categoryGroups.find(group => group.title === selectedGroup)?.categories || []
+  )]
 
   return (
     <div className="max-w-4xl mx-auto p-6">
       <h1 className="text-gray-600 text-3xl font-bold mb-6">Search Posts</h1>
       
-      <div className="flex gap-4 mb-6">
+      <div className="flex flex-col sm:flex-row gap-4 mb-6">
         <input
           type="text"
           placeholder="Search posts..."
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-          className="flex-1 p-2 border rounded"
+          className="w-full p-2 border rounded"
         />
         
         <select
+          value={selectedGroup}
+          onChange={(e) => setSelectedGroup(e.target.value)}
+          className="w-full sm:w-40 p-2 border rounded text-ellipsis"
+        >
+          {groupTitles.map((title) => (
+        <option key={title} value={title}>
+          {title === 'all' ? 'All Groups' : title}
+        </option>
+          ))}
+        </select>
+
+        <select
           value={selectedCategory}
           onChange={(e) => setSelectedCategory(e.target.value)}
-          className="p-2 border rounded"
+          className="w-full sm:w-40 p-2 border rounded text-ellipsis"
         >
-          {categories.map((category) => (
-            <>
-              <option key={category} value={category}>
-                {category.charAt(0).toUpperCase() + category.slice(1)}
-              </option>
-            </>
+          {filteredCategories.map((category) => (
+        <option key={category} value={category}>
+          {category === 'all' ? 'All Categories' : category}
+        </option>
           ))}
         </select>
       </div>
