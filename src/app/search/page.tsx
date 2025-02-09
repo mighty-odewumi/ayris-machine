@@ -58,6 +58,7 @@ export default function SearchPage() {
       }
     }
     searchPosts()
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [searchQuery, selectedGroup, selectedCategory ])
 
   // Reset selected category when group changes
