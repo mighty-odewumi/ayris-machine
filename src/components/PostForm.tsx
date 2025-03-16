@@ -1,6 +1,5 @@
 'use client'
 
-// @typescript-eslint/no-unused-vars
 import Image from 'next/image'
 import { ChevronUpDownIcon, CheckIcon } from '@heroicons/react/24/outline'
 import { useState, useRef, useEffect } from 'react'
@@ -18,10 +17,16 @@ export default function BuildPage() {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
-  // const [imageFile, setImageFile] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
-  // const [loading, setLoading] = useState(false)
-  // const [error, setError] = useState<string | null>(null)
+  
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [loading, setLoading] = useState(false) 
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [error, setError] = useState<string | null>(null)
+  
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  const [imageFile, setImageFile] = useState<File | null>(null) // Added this missing line from the code
   const [searchQuery, setSearchQuery] = useState('')
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   
