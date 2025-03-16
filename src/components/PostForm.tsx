@@ -1,10 +1,9 @@
 'use client'
 
+// @typescript-eslint/no-unused-vars
 import Image from 'next/image'
 import { ChevronUpDownIcon, CheckIcon } from '@heroicons/react/24/outline'
 import { useState, useRef, useEffect } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { useRouter } from 'next/navigation'
 import { categoryGroups } from '@/constants/categories1'
 import { submitPost } from '@/app/actions'
 // import { submitPost } from '@/app/actions/submitPost'
@@ -19,10 +18,10 @@ export default function BuildPage() {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
-  const [imageFile, setImageFile] = useState<File | null>(null)
+  // const [imageFile, setImageFile] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  // const [loading, setLoading] = useState(false)
+  // const [error, setError] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   
