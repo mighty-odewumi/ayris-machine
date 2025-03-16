@@ -1,4 +1,14 @@
 // Auto-generated - DO NOT EDIT MANUALLY
+export interface Category {
+  id: string
+  name: string
+  group_name: string
+}
+
+export interface CategoryGroup {
+  title: string
+  categories: Category[]
+}
 
 export const categoryGroups = [
   {
