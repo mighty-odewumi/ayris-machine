@@ -26,6 +26,7 @@ export async function submitPost(formData: FormData) {
             )
           } catch (error) {
             // In a Server Component, set may not be available.
+            console.error(error);
           }
         }
       }

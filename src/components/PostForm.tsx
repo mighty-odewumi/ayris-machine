@@ -27,8 +27,8 @@ export default function BuildPage() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   
   const dropdownRef = useRef<HTMLDivElement>(null)
-  const supabase = createClientComponentClient()
-  const router = useRouter()
+  // const supabase = createClientComponentClient()
+  // const router = useRouter()
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -72,65 +72,6 @@ export default function BuildPage() {
     e.preventDefault()
     e.stopPropagation()
     setIsDropdownOpen(prev => !prev)
-  }
-
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    setError(null)
-
-    try {
-      const { data: { user } } = await supabase.auth.getUser()
-      console.log(user);
-      if (!user) throw new Error('Authentication required')
-
-      // Upload image
-      let imageUrl = null
-      if (imageFile) {
-        const fileExt = imageFile.name.split('.').pop()
-        const fileName = `${user?.id}/${Date.now()}.${fileExt}`
-        const { error: uploadError } = await supabase.storage
-          .from('post-images')
-          .upload(fileName, imageFile)
-
-        if (uploadError) throw uploadError
-        imageUrl = (await supabase.storage
-          .from('post-images')
-          .getPublicUrl(fileName)).data.publicUrl
-      }
-
-      // Create post
-      const { data: post, error: postError } = await supabase
-        .from('posts')
-        .insert({
-          title,
-          content,
-          user_id: user?.id,
-          image_url: imageUrl
-        })
-        .select()
-        .single()
-
-      if (postError) throw postError
-
-      // Link categories
-      if (selectedCategories.length > 0) {
-        const { error: categoryError } = await supabase
-          .from('posts_categories')
-          .insert(selectedCategories.map(categoryId => ({
-            post_id: post.id,
-            category_id: categoryId
-          })))
-
-        if (categoryError) throw categoryError
-      }
-
-      router.push(`/post/${post.id}`)
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to create post')
-    } finally {
-      setLoading(false)
-    }
   }
 
   // Get category names for display
@@ -202,7 +143,7 @@ export default function BuildPage() {
             name="categories"
             value={selectedCategories.join(',')}
           />
-          
+
           {/* Custom Category Selector Dropdown */}
           <div className="relative" ref={dropdownRef}>
             <button
