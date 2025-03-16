@@ -6,6 +6,8 @@ import { useState, useRef, useEffect } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
 import { categoryGroups } from '@/constants/categories1'
+import { submitPost } from '@/app/actions'
+// import { submitPost } from '@/app/actions/submitPost'
 
 interface Category {
   id: string
@@ -79,13 +81,14 @@ export default function BuildPage() {
 
     try {
       const { data: { user } } = await supabase.auth.getUser()
+      console.log(user);
       if (!user) throw new Error('Authentication required')
 
       // Upload image
       let imageUrl = null
       if (imageFile) {
         const fileExt = imageFile.name.split('.').pop()
-        const fileName = `${user.id}/${Date.now()}.${fileExt}`
+        const fileName = `${user?.id}/${Date.now()}.${fileExt}`
         const { error: uploadError } = await supabase.storage
           .from('post-images')
           .upload(fileName, imageFile)
@@ -102,7 +105,7 @@ export default function BuildPage() {
         .insert({
           title,
           content,
-          user_id: user.id,
+          user_id: user?.id,
           image_url: imageUrl
         })
         .select()
@@ -145,12 +148,13 @@ export default function BuildPage() {
     <div className="max-w-3xl text-white mx-auto p-6">
       <h1 className="text-3xl font-bold mb-8">Create New Post</h1>
       
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form action={submitPost} className="space-y-6">
         <div>
           <label className="block text-sm font-medium mb-2">Title</label>
           <input
             type="text"
             value={title}
+            name="title"
             onChange={(e) => setTitle(e.target.value)}
             required
             className="w-full p-3 border rounded-lg text-black"
@@ -164,6 +168,7 @@ export default function BuildPage() {
             onChange={(e) => setContent(e.target.value)}
             required
             rows={6}
+            name='content'
             className="w-full p-3 border rounded-lg text-black"
           />
         </div>
@@ -173,6 +178,7 @@ export default function BuildPage() {
           <input
             type="file"
             accept="image/*"
+            name='image'
             onChange={(e) => e.target.files?.[0] && handleImageUpload(e.target.files[0])}
             className="w-full p-3 border rounded-lg"
           />
@@ -190,6 +196,12 @@ export default function BuildPage() {
 
         <div className="space-y-4">
           <h3 className="text-lg font-semibold">Select Categories</h3>
+          
+          <input
+            type="hidden"
+            name="categories"
+            value={selectedCategories.join(',')}
+          />
           
           {/* Custom Category Selector Dropdown */}
           <div className="relative" ref={dropdownRef}>
