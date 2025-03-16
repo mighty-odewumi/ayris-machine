@@ -1,11 +1,12 @@
 'use client'
 
+// @typescript-eslint/no-unused-vars
 import Image from 'next/image'
 import { ChevronUpDownIcon, CheckIcon } from '@heroicons/react/24/outline'
 import { useState, useRef, useEffect } from 'react'
-import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-import { useRouter } from 'next/navigation'
 import { categoryGroups } from '@/constants/categories1'
+import { submitPost } from '@/app/actions'
+// import { submitPost } from '@/app/actions/submitPost'
 
 interface Category {
   id: string
@@ -17,16 +18,16 @@ export default function BuildPage() {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
-  const [imageFile, setImageFile] = useState<File | null>(null)
+  // const [imageFile, setImageFile] = useState<File | null>(null)
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
-  const [loading, setLoading] = useState(false)
-  const [error, setError] = useState<string | null>(null)
+  // const [loading, setLoading] = useState(false)
+  // const [error, setError] = useState<string | null>(null)
   const [searchQuery, setSearchQuery] = useState('')
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
   
   const dropdownRef = useRef<HTMLDivElement>(null)
-  const supabase = createClientComponentClient()
-  const router = useRouter()
+  // const supabase = createClientComponentClient()
+  // const router = useRouter()
 
   // Close dropdown when clicking outside
   useEffect(() => {
@@ -72,64 +73,6 @@ export default function BuildPage() {
     setIsDropdownOpen(prev => !prev)
   }
 
-  const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    setError(null)
-
-    try {
-      const { data: { user } } = await supabase.auth.getUser()
-      if (!user) throw new Error('Authentication required')
-
-      // Upload image
-      let imageUrl = null
-      if (imageFile) {
-        const fileExt = imageFile.name.split('.').pop()
-        const fileName = `${user.id}/${Date.now()}.${fileExt}`
-        const { error: uploadError } = await supabase.storage
-          .from('post-images')
-          .upload(fileName, imageFile)
-
-        if (uploadError) throw uploadError
-        imageUrl = (await supabase.storage
-          .from('post-images')
-          .getPublicUrl(fileName)).data.publicUrl
-      }
-
-      // Create post
-      const { data: post, error: postError } = await supabase
-        .from('posts')
-        .insert({
-          title,
-          content,
-          user_id: user.id,
-          image_url: imageUrl
-        })
-        .select()
-        .single()
-
-      if (postError) throw postError
-
-      // Link categories
-      if (selectedCategories.length > 0) {
-        const { error: categoryError } = await supabase
-          .from('posts_categories')
-          .insert(selectedCategories.map(categoryId => ({
-            post_id: post.id,
-            category_id: categoryId
-          })))
-
-        if (categoryError) throw categoryError
-      }
-
-      router.push(`/post/${post.id}`)
-    } catch (err) {
-      setError(err instanceof Error ? err.message : 'Failed to create post')
-    } finally {
-      setLoading(false)
-    }
-  }
-
   // Get category names for display
   const selectedCategoryNames = selectedCategories
     .map(id => {
@@ -145,12 +88,13 @@ export default function BuildPage() {
     <div className="max-w-3xl text-white mx-auto p-6">
       <h1 className="text-3xl font-bold mb-8">Create New Post</h1>
       
-      <form onSubmit={handleSubmit} className="space-y-6">
+      <form action={submitPost} className="space-y-6">
         <div>
           <label className="block text-sm font-medium mb-2">Title</label>
           <input
             type="text"
             value={title}
+            name="title"
             onChange={(e) => setTitle(e.target.value)}
             required
             className="w-full p-3 border rounded-lg text-black"
@@ -164,6 +108,7 @@ export default function BuildPage() {
             onChange={(e) => setContent(e.target.value)}
             required
             rows={6}
+            name='content'
             className="w-full p-3 border rounded-lg text-black"
           />
         </div>
@@ -173,6 +118,7 @@ export default function BuildPage() {
           <input
             type="file"
             accept="image/*"
+            name='image'
             onChange={(e) => e.target.files?.[0] && handleImageUpload(e.target.files[0])}
             className="w-full p-3 border rounded-lg"
           />
@@ -191,6 +137,12 @@ export default function BuildPage() {
         <div className="space-y-4">
           <h3 className="text-lg font-semibold">Select Categories</h3>
           
+          <input
+            type="hidden"
+            name="categories"
+            value={selectedCategories.join(',')}
+          />
+
           {/* Custom Category Selector Dropdown */}
           <div className="relative" ref={dropdownRef}>
             <button
