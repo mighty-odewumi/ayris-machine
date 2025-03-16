@@ -5,13 +5,14 @@ import { useState, useEffect } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Combobox } from '@headlessui/react'
 import { ChevronUpDownIcon, CheckIcon } from '@heroicons/react/24/outline'
-import { categoryGroups, type CategoryGroup, type Category } from '@/constants/categories1'
+import { categoryGroups } from '@/constants/categories1';
+// import { type CategoryGroup, type Category } from '@/constants/categories1'
 
 // Previous interfaces remain the same...
 interface DatabaseCategory {
-  id: any;
-  name: any;
-  group_name: any;
+  id: string;
+  name: string;
+  group_name: string;
 }
 
 interface DatabasePostCategory {
@@ -19,11 +20,11 @@ interface DatabasePostCategory {
 }
 
 interface DatabasePost {
-  id: any;
-  title: any;
-  content: any;
-  image_url: any;
-  created_at: any;
+  id: string;
+  title: string;
+  content: string;
+  image_url: string;
+  created_at: string;
   categories: DatabasePostCategory[];
 }
 
@@ -152,7 +153,7 @@ export default function SearchPage() {
 
           <div className="relative">
             <Combobox value={selectedCategories} onChange={setSelectedCategories} multiple>
-              <div className="relative">
+              <div className="relative" onClick={(e) => e.stopPropagation()}>
                 <Combobox.Button className="w-full p-3 border rounded-lg text-left flex items-center justify-between bg-white">
                   <span className="truncate">
                     {selectedCategories.length === 0
@@ -163,18 +164,25 @@ export default function SearchPage() {
                 </Combobox.Button>
 
                 <Combobox.Input
-                  className="hidden"
+                  className="w-0 h-0 opacity-0 absolute"
                   displayValue={() => ''}
                   onChange={(event) => setQuery(event.target.value)}
                 />
 
-                <Combobox.Options className="absolute z-20 mt-1 w-full max-h-96 overflow-y-auto rounded-md bg-white shadow-lg border p-2">
+                <Combobox.Options 
+                  className="absolute z-20 mt-1 w-full max-h-96 overflow-y-auto rounded-md bg-white shadow-lg border p-2"
+                  static  // Add this to prevent auto-closing
+                >
                   <input
                     type="text"
                     className="w-full p-2 mb-2 border rounded"
                     placeholder="Search categories..."
                     value={query}
-                    onChange={(e) => setQuery(e.target.value)}
+                    onChange={(e) => {
+                      e.stopPropagation();
+                      setQuery(e.target.value);
+                    }}
+                    onClick={(e) => e.stopPropagation()}
                   />
                   
                   {categoryGroups.map((group) => {
@@ -227,7 +235,6 @@ export default function SearchPage() {
         </div>
       </div>
 
-      {/* Rest of the component remains the same */}
       {loading ? (
         <div className="text-center py-8 text-gray-500">Searching posts...</div>
       ) : posts.length === 0 ? (
