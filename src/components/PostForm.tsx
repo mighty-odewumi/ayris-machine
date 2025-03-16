@@ -5,7 +5,7 @@ import { ChevronUpDownIcon, CheckIcon } from '@heroicons/react/24/outline'
 import { useState, useRef, useEffect } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { useRouter } from 'next/navigation'
-import { categoryGroups, type CategoryGroup } from '@/constants/categories1'
+import { categoryGroups } from '@/constants/categories1'
 
 interface Category {
   id: string
