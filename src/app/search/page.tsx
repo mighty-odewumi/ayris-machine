@@ -1,14 +1,13 @@
 'use client'
 
 import Image from 'next/image'
-import { useState, useEffect } from 'react'
+import { useState, useEffect, useRef } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
 import { Combobox } from '@headlessui/react'
 import { ChevronUpDownIcon, CheckIcon } from '@heroicons/react/24/outline'
-import { categoryGroups } from '@/constants/categories1';
-// import { type CategoryGroup, type Category } from '@/constants/categories1'
+import { categoryGroups } from '@/constants/categories1'
 
-// Previous interfaces remain the same...
+// Keep existing interfaces
 interface DatabaseCategory {
   id: string;
   name: string;
@@ -46,13 +45,17 @@ interface Post {
 }
 
 export default function SearchPage() {
+  // State management
   const [searchQuery, setSearchQuery] = useState('')
   const [query, setQuery] = useState('')
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
   const [posts, setPosts] = useState<Post[]>([])
   const [loading, setLoading] = useState(false)
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const dropdownRef = useRef<HTMLDivElement>(null)
   const supabase = createClientComponentClient()
 
+  // Process categories
   const allCategories = categoryGroups.flatMap(group => 
     group.categories.map(category => ({
       ...category,
@@ -69,6 +72,21 @@ export default function SearchPage() {
           .includes(query.toLowerCase().replace(/\s+/g, ''))
       )
 
+  // Close dropdown when clicking outside
+  useEffect(() => {
+    function handleClickOutside(event: MouseEvent) {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsDropdownOpen(false);
+      }
+    }
+    
+    document.addEventListener('mousedown', handleClickOutside);
+    return () => {
+      document.removeEventListener('mousedown', handleClickOutside);
+    };
+  }, [dropdownRef]);
+
+  // Fetch and filter posts
   useEffect(() => {
     const fetchPosts = async () => {
       setLoading(true)
@@ -95,6 +113,7 @@ export default function SearchPage() {
 
         const dbPosts = (data as unknown) as DatabasePost[]
     
+        // Transform database posts to our format
         const typedPosts: Post[] = dbPosts.map(post => ({
           id: post.id,
           title: post.title,
@@ -112,11 +131,13 @@ export default function SearchPage() {
     
         // Filter posts by both search query and categories
         const filteredPosts = typedPosts.filter(post => {
+          // Check if post matches search query
           const matchesSearch = searchQuery
             ? post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
               post.content.toLowerCase().includes(searchQuery.toLowerCase())
             : true
 
+          // Check if post has all selected categories
           const matchesCategories = selectedCategories.length === 0 || 
             selectedCategories.every(selectedId =>
               post.categories.some(pc => pc.category.id === selectedId)
@@ -133,9 +154,21 @@ export default function SearchPage() {
       }
     }
 
+    // Debounce search to avoid excessive database calls
     const debounce = setTimeout(() => fetchPosts(), 300)
     return () => clearTimeout(debounce)
   }, [searchQuery, selectedCategories, supabase])
+
+  // Handler for toggling the dropdown
+  const handleDropdownToggle = (e: React.MouseEvent) => {
+    e.stopPropagation()
+    setIsDropdownOpen(prev => !prev)
+  }
+
+  // Selected category names for display
+  const selectedCategoryNames = selectedCategories.map(id => 
+    allCategories.find(cat => cat.id === id)?.name
+  ).filter(Boolean)
 
   return (
     <div className="max-w-6xl mx-auto p-6">
@@ -143,6 +176,7 @@ export default function SearchPage() {
         <h1 className="text-3xl font-bold mb-6">Discover Posts</h1>
         
         <div className="space-y-4">
+          {/* Search input */}
           <input
             type="text"
             placeholder="Search posts..."
@@ -151,90 +185,130 @@ export default function SearchPage() {
             className="w-full p-3 border rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
           />
 
-          <div className="relative">
-            <Combobox value={selectedCategories} onChange={setSelectedCategories} multiple>
-              <div className="relative" onClick={(e) => e.stopPropagation()}>
-                <Combobox.Button className="w-full p-3 border rounded-lg text-left flex items-center justify-between bg-white">
-                  <span className="truncate">
-                    {selectedCategories.length === 0
-                      ? 'Filter by categories...'
-                      : `${selectedCategories.length} categories selected`}
-                  </span>
-                  <ChevronUpDownIcon className="h-5 w-5 text-gray-400" />
-                </Combobox.Button>
+          {/* Categories dropdown */}
+          <div className="relative" ref={dropdownRef}>
+            <button 
+              onClick={handleDropdownToggle}
+              className="w-full p-3 border rounded-lg text-left flex items-center justify-between bg-white"
+            >
+              <span className="truncate">
+                {selectedCategories.length === 0
+                  ? 'Filter by categories...'
+                  : `${selectedCategories.length} categories selected: ${selectedCategoryNames.join(', ')}`}
+              </span>
+              <ChevronUpDownIcon className="h-5 w-5 text-gray-400" />
+            </button>
 
-                <Combobox.Input
-                  className="w-0 h-0 opacity-0 absolute"
-                  displayValue={() => ''}
-                  onChange={(event) => setQuery(event.target.value)}
+            {isDropdownOpen && (
+              <div className="absolute z-20 mt-1 w-full max-h-96 overflow-y-auto rounded-md bg-white shadow-lg border p-2">
+                {/* Category search input */}
+                <input
+                  type="text"
+                  className="w-full p-2 mb-2 border rounded"
+                  placeholder="Search categories..."
+                  value={query}
+                  onChange={(e) => setQuery(e.target.value)}
+                  onClick={(e) => e.stopPropagation()}
                 />
-
-                <Combobox.Options 
-                  className="absolute z-20 mt-1 w-full max-h-96 overflow-y-auto rounded-md bg-white shadow-lg border p-2"
-                  static  // Add this to prevent auto-closing
-                >
-                  <input
-                    type="text"
-                    className="w-full p-2 mb-2 border rounded"
-                    placeholder="Search categories..."
-                    value={query}
-                    onChange={(e) => {
-                      e.stopPropagation();
-                      setQuery(e.target.value);
-                    }}
-                    onClick={(e) => e.stopPropagation()}
-                  />
+                
+                {/* Category list */}
+                {categoryGroups.map((group) => {
+                  const groupCategories = filteredCategories.filter(
+                    cat => cat.group === group.title
+                  )
                   
-                  {categoryGroups.map((group) => {
-                    const groupCategories = filteredCategories.filter(
-                      cat => cat.group === group.title
-                    )
-                    
-                    if (groupCategories.length === 0) return null
-                    
-                    return (
-                      <div key={group.title} className="mb-4">
-                        <h4 className="font-medium p-2 bg-gray-50 rounded">
-                          {group.title}
-                        </h4>
-                        <div className="mt-1">
-                          {groupCategories.map((category) => (
-                            <Combobox.Option
+                  if (groupCategories.length === 0) return null
+                  
+                  return (
+                    <div key={group.title} className="mb-4">
+                      <h4 className="font-medium p-2 bg-gray-50 rounded">
+                        {group.title}
+                      </h4>
+                      <div className="mt-1">
+                        {groupCategories.map((category) => {
+                          const isSelected = selectedCategories.includes(category.id)
+                          return (
+                            <div 
                               key={category.id}
-                              value={category.id}
-                              className={({ active, selected }) =>
-                                `relative cursor-pointer select-none py-2 pl-10 pr-4 ${
-                                  active ? 'bg-blue-50' : ''
-                                } ${
-                                  selected ? 'bg-blue-100' : ''
-                                }`
-                              }
+                              className={`relative cursor-pointer select-none py-2 pl-10 pr-4 ${
+                                isSelected ? 'bg-blue-100' : 'hover:bg-blue-50'
+                              }`}
+                              onClick={(e) => {
+                                e.stopPropagation()
+                                setSelectedCategories(prev => 
+                                  isSelected 
+                                    ? prev.filter(id => id !== category.id) 
+                                    : [...prev, category.id]
+                                )
+                              }}
                             >
-                              {({ selected }) => (
-                                <>
-                                  <span className={`block truncate ${selected ? 'font-semibold' : 'font-normal'}`}>
-                                    {category.name}
-                                  </span>
-                                  {selected && (
-                                    <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-600">
-                                      <CheckIcon className="h-5 w-5" />
-                                    </span>
-                                  )}
-                                </>
+                              <span className={`block truncate ${isSelected ? 'font-semibold' : 'font-normal'}`}>
+                                {category.name}
+                              </span>
+                              {isSelected && (
+                                <span className="absolute inset-y-0 left-0 flex items-center pl-3 text-blue-600">
+                                  <CheckIcon className="h-5 w-5" />
+                                </span>
                               )}
-                            </Combobox.Option>
-                          ))}
-                        </div>
+                            </div>
+                          )
+                        })}
                       </div>
-                    )
-                  })}
-                </Combobox.Options>
+                    </div>
+                  )
+                })}
+                
+                {/* Selected categories display and actions */}
+                {selectedCategories.length > 0 && (
+                  <div className="mt-2 pt-2 border-t">
+                    <div className="flex justify-between items-center">
+                      <span className="text-sm font-medium">
+                        {selectedCategories.length} categories selected
+                      </span>
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation()
+                          setSelectedCategories([])
+                        }}
+                        className="text-sm text-red-600 hover:text-red-800"
+                      >
+                        Clear all
+                      </button>
+                    </div>
+                  </div>
+                )}
               </div>
-            </Combobox>
+            )}
           </div>
+          
+          {/* Selected category pills */}
+          {selectedCategories.length > 0 && (
+            <div className="flex flex-wrap gap-2 py-2">
+              {selectedCategories.map(id => {
+                const category = allCategories.find(c => c.id === id)
+                if (!category) return null
+                
+                return (
+                  <span 
+                    key={id}
+                    className="px-2 py-1 bg-blue-100 text-blue-800 rounded-full text-sm flex items-center"
+                  >
+                    {category.name}
+                    <button 
+                      onClick={() => setSelectedCategories(prev => prev.filter(c => c !== id))}
+                      className="ml-1 text-blue-600 hover:text-blue-800"
+                    >
+                      &times;
+                    </button>
+                  </span>
+                )
+              })}
+            </div>
+          )}
         </div>
       </div>
 
+      {/* Search results */}
       {loading ? (
         <div className="text-center py-8 text-gray-500">Searching posts...</div>
       ) : posts.length === 0 ? (
