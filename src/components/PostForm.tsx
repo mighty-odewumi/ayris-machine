@@ -5,7 +5,6 @@ import { ChevronUpDownIcon, CheckIcon } from '@heroicons/react/24/outline'
 import { useState, useRef, useEffect } from 'react'
 import { categoryGroups } from '@/constants/categories1'
 import { submitPost } from '@/app/actions'
-// import { submitPost } from '@/app/actions/submitPost'
 
 interface Category {
   id: string
@@ -18,6 +17,9 @@ export default function BuildPage() {
   const [content, setContent] = useState('')
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  const [selectedCategoryData, setSelectedCategoryData] = useState<{id: string, name: string, group: string}[]>([])
+  const formRef = useRef<HTMLFormElement>(null)
+  const [formError, setFormError] = useState<string | null>(null)
   
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const [loading, setLoading] = useState(false) 
@@ -64,12 +66,22 @@ export default function BuildPage() {
     setImageFile(file)
   }
 
-  const toggleCategory = (categoryId: string) => {
-    setSelectedCategories(prev => 
-      prev.includes(categoryId)
-        ? prev.filter(id => id !== categoryId)
-        : [...prev, categoryId]
-    )
+  const toggleCategory = (categoryId: string, categoryName: string, groupName: string) => {
+    setSelectedCategories(prev => {
+      const isSelected = prev.includes(categoryId)
+      
+      // Update the selectedCategoryData state
+      if (isSelected) {
+        setSelectedCategoryData(prev => prev.filter(item => item.id !== categoryId))
+        return prev.filter(id => id !== categoryId)
+      } else {
+        setSelectedCategoryData(prev => [
+          ...prev, 
+          { id: categoryId, name: categoryName, group: groupName }
+        ])
+        return [...prev, categoryId]
+      }
+    })
   }
 
   const handleDropdownToggle = (e: React.MouseEvent) => {
@@ -89,11 +101,32 @@ export default function BuildPage() {
     .filter(Boolean)
     .join(', ')
 
+  async function handleSubmit(formData: FormData) {
+    setLoading(true)
+    setFormError(null)
+    
+    try {
+      const result = await submitPost(formData)
+      
+      if (result.error) {
+        setFormError(result.error)
+        setLoading(false)
+      } else if (result.success) {
+        // Success! Redirect manually on the client side
+        window.location.href = `/post/${result.postId}`
+      }
+    } catch (error) {
+      console.error('Form submission error:', error)
+      setFormError(error instanceof Error ? error.message : 'An error occurred')
+      setLoading(false)
+    }
+  }
+
   return (
     <div className="max-w-3xl text-white mx-auto p-6">
       <h1 className="text-3xl font-bold mb-8">Create New Post</h1>
       
-      <form action={submitPost} className="space-y-6">
+      <form ref={formRef} action={handleSubmit} className="space-y-6">
         <div>
           <label className="block text-sm font-medium mb-2">Title</label>
           <input
@@ -144,8 +177,8 @@ export default function BuildPage() {
           
           <input
             type="hidden"
-            name="categories"
-            value={selectedCategories.join(',')}
+            name="categoriesData"
+            value={JSON.stringify(selectedCategoryData)}
           />
 
           {/* Custom Category Selector Dropdown */}
@@ -173,7 +206,8 @@ export default function BuildPage() {
                     placeholder="Search categories..."
                     value={searchQuery}
                     onChange={(e) => setSearchQuery(e.target.value)}
-                    onClick={(e) => e.stopPropagation()}
+                    onClick={(e) => {
+                      e.stopPropagation()}}
                   />
                   {searchQuery && (
                     <button
@@ -203,7 +237,7 @@ export default function BuildPage() {
                             }`}
                             onClick={(e) => {
                               e.stopPropagation();
-                              toggleCategory(category.id);
+                              toggleCategory(category.id, category.name, group.title);
                             }}
                           >
                             <span className={`block truncate ${isSelected ? 'font-semibold' : 'font-normal'}`}>
@@ -233,6 +267,7 @@ export default function BuildPage() {
                         onClick={(e) => {
                           e.stopPropagation();
                           setSelectedCategories([]);
+                          setSelectedCategoryData([]);
                         }}
                         className="text-sm text-red-600 hover:text-red-800"
                       >
@@ -281,7 +316,7 @@ export default function BuildPage() {
           )}
         </div>
 
-        {error && <p className="text-red-500">{error}</p>}
+        {formError && <p className="text-red-500">{formError}</p>}
 
         <button
           type="submit"
