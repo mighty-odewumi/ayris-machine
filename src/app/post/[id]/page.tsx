@@ -8,10 +8,18 @@ export default async function Post({ params }: { params: { id: string } }) {
   const { id } = await params;
 
   try {
-    // Fetch posts first
+    // Fetch posts and include posts_categories relation
     const { data: post, error: postError } = await supabase
       .from('posts')
-      .select('*')
+      .select(`
+        *,
+        posts_categories (
+          post_id,
+          category_id,
+          category_name,
+          category_group
+        )
+      `)
       .eq('id', id)
       .single()
     
@@ -45,10 +53,33 @@ export default async function Post({ params }: { params: { id: string } }) {
           <span>{profile?.full_name || 'Anonymous'}</span>
           <span className="mx-2">•</span>
           <span>{new Date(post.created_at).toLocaleDateString()}</span>
-          <span className="mx-2">•</span>
-          <Link href={`/category/${post.category.toLowerCase()}`} className="text-indigo-400 hover:underline">
-            {post.category}
-          </Link>
+          
+          {/* Display category section */}
+          {post.posts_categories && post.posts_categories.length > 0 ? (
+            <div className="flex items-center">
+              <span className="mx-2">•</span>
+              <div className="flex flex-wrap gap-1">
+                {post.posts_categories.map((category: { id: string, category_name: string, category_id: string }) => (
+                  <Link 
+                    key={category.id} 
+                    href={`/category/${category.category_id.toLowerCase()}`}
+                    className="text-indigo-400 hover:underline mr-1"
+                  >
+                    {category.category_name}
+                    {post.posts_categories.indexOf(category) < post.posts_categories.length - 1 && ","}
+                  </Link>
+                ))}
+              </div>
+            </div>
+          ) : (
+            // Fallback to the primary category if no categories in the junction table
+            <>
+              <span className="mx-2">•</span>
+              <Link href={`/category/${post.category?.toLowerCase()}`} className="text-indigo-400 hover:underline">
+                {post.category}
+              </Link>
+            </>
+          )}
         </div>
         <div className="prose prose-invert">
           {post.content.split('\n').map((paragraph: string, index: number) => (
