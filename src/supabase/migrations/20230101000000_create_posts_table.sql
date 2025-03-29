@@ -34,3 +34,12 @@ CREATE INDEX posts_category_idx ON posts (category);
 -- Create an index on the user_id column for faster queries
 CREATE INDEX posts_user_id_idx ON posts (user_id);
 
+
+-- Add new category_group column
+ALTER TABLE posts ADD COLUMN category_group TEXT;
+
+-- Update existing records to maintain backwards compatibility
+UPDATE posts SET category_group = category WHERE category_group IS NULL;
+
+-- Add an index for the new column
+CREATE INDEX posts_category_group_idx ON posts (category_group);

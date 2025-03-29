@@ -8,8 +8,6 @@ export default async function WritePage() {
   const { data: { user } } = await supabase.auth.getUser()
   
   if (!user) {
-    // If the user is not logged in, redirect to the login page
-    // You may need to adjust this path to match your login page route
     redirect('/login')
   }
 
@@ -20,4 +18,3 @@ export default async function WritePage() {
     </div>
   )
 }
-
