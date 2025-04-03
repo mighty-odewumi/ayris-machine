@@ -124,7 +124,7 @@ export default function SearchPage() {
           // Check if this is a legacy post with direct category
           const hasLegacyCategory = post.category && post.category.trim() !== ''
           
-          let allCategories = [...relationCategories]
+          const allCategories = [...relationCategories]
           
           // If it's a legacy post with a direct category, add that too
           if (hasLegacyCategory) {
