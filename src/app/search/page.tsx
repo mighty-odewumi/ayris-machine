@@ -3,35 +3,13 @@
 import Image from 'next/image'
 import { useState, useEffect, useRef } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-// import { Combobox } from '@headlessui/react'
 import { ChevronUpDownIcon, CheckIcon } from '@heroicons/react/24/outline'
 import { categoryGroups } from '@/constants/categories1'
-
-// Keep existing interfaces
-interface DatabaseCategory {
-  id: string;
-  name: string;
-  group_name: string;
-}
-
-interface DatabasePostCategory {
-  category: DatabaseCategory[];
-}
-
-interface DatabasePost {
-  id: string;
-  title: string;
-  content: string;
-  image_url: string;
-  created_at: string;
-  categories: DatabasePostCategory[];
-}
-
 interface PostCategory {
   category: {
     id: string;
     name: string;
-    group_name: string;
+    group_name: string | null;
   }
 }
 
@@ -45,13 +23,14 @@ interface Post {
 }
 
 export default function SearchPage() {
-  // State management
   const [searchQuery, setSearchQuery] = useState('')
   const [query, setQuery] = useState('')
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
   const [posts, setPosts] = useState<Post[]>([])
   const [loading, setLoading] = useState(false)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [filterMode, setFilterMode] = useState<'AND' | 'OR'>('AND')
+
   const dropdownRef = useRef<HTMLDivElement>(null)
   const supabase = createClientComponentClient()
 
@@ -91,44 +70,58 @@ export default function SearchPage() {
     const fetchPosts = async () => {
       setLoading(true)
       try {
-        const { data, error } = await supabase
+        // First, get all posts
+        const { data: postsData, error: postsError } = await supabase
           .from('posts')
           .select(`
             id,
             title,
             content,
             image_url,
-            created_at,
-            categories:posts_categories (
-              category:categories (
-                id,
-                name,
-                group_name
-              )
-            )
+            created_at
           `)
           .order('created_at', { ascending: false })
-    
-        if (error) throw error
-
-        const dbPosts = (data as unknown) as DatabasePost[]
-    
-        // Transform database posts to our format
-        const typedPosts: Post[] = dbPosts.map(post => ({
-          id: post.id,
-          title: post.title,
-          content: post.content,
-          image_url: post.image_url,
-          created_at: post.created_at,
-          categories: post.categories.map(categoryWrapper => ({
-            category: {
-              id: categoryWrapper.category[0].id,
-              name: categoryWrapper.category[0].name,
-              group_name: categoryWrapper.category[0].group_name
-            }
-          }))
-        }))
-    
+        
+        if (postsError) throw postsError
+        
+        // Then get all categories for these posts
+        const postIds = postsData.map(post => post.id)
+        
+        const { data: categoriesData, error: categoriesError } = await supabase
+          .from('posts_categories')
+          .select(`
+            post_id,
+            category_id,
+            category_name,
+            category_group
+          `)
+          .in('post_id', postIds)
+        
+        if (categoriesError) throw categoriesError
+        
+        // Now combine the data manually
+        const typedPosts: Post[] = postsData.map(post => {
+          // Find all categories for this post
+          const postCategories = categoriesData
+            .filter(cat => cat.post_id === post.id)
+            .map(cat => ({
+              category: {
+                id: cat.category_id,
+                name: cat.category_name,
+                group_name: cat.category_group
+              }
+            }))
+          
+          return {
+            id: post.id,
+            title: post.title,
+            content: post.content,
+            image_url: post.image_url || undefined,
+            created_at: post.created_at,
+            categories: postCategories
+          }
+        })
+        
         // Filter posts by both search query and categories
         const filteredPosts = typedPosts.filter(post => {
           // Check if post matches search query
@@ -136,16 +129,26 @@ export default function SearchPage() {
             ? post.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
               post.content.toLowerCase().includes(searchQuery.toLowerCase())
             : true
-
-          // Check if post has all selected categories
-          const matchesCategories = selectedCategories.length === 0 || 
-            selectedCategories.every(selectedId =>
-              post.categories.some(pc => pc.category.id === selectedId)
-            )
-
+  
+          // Check if post matches categories based on filter mode
+          let matchesCategories = true;
+          if (selectedCategories.length > 0) {
+            if (filterMode === 'AND') {
+              // AND condition: post must have ALL selected categories
+              matchesCategories = selectedCategories.every(selectedId =>
+                post.categories.some(pc => pc.category.id === selectedId)
+              );
+            } else {
+              // OR condition: post must have ANY selected category
+              matchesCategories = selectedCategories.some(selectedId =>
+                post.categories.some(pc => pc.category.id === selectedId)
+              );
+            }
+          }
+  
           return matchesSearch && matchesCategories
         })
-    
+        
         setPosts(filteredPosts)
       } catch (error) {
         console.error('Error fetching posts:', error)
@@ -153,11 +156,9 @@ export default function SearchPage() {
         setLoading(false)
       }
     }
-
-    // Debounce search to avoid excessive database calls
     const debounce = setTimeout(() => fetchPosts(), 300)
     return () => clearTimeout(debounce)
-  }, [searchQuery, selectedCategories, supabase])
+  }, [searchQuery, selectedCategories, filterMode, supabase])
 
   // Handler for toggling the dropdown
   const handleDropdownToggle = (e: React.MouseEvent) => {
@@ -307,6 +308,37 @@ export default function SearchPage() {
           )}
         </div>
       </div>
+
+      {/* Category filter mode toggle (only when multiple categories selected) */}
+      {selectedCategories.length > 1 && (
+        <div className="flex items-center justify-start py-2">
+          <span className="text-sm font-medium mr-2">Filter mode:</span>
+          <div className="flex border rounded-lg overflow-hidden">
+            <button
+              type="button"
+              onClick={() => setFilterMode('AND')}
+              className={`px-3 py-1.5 text-sm ${
+                filterMode === 'AND' 
+                  ? 'bg-blue-600 text-white' 
+                  : 'bg-white text-gray-700 hover:bg-gray-50'
+              }`}
+            >
+              Match ALL (AND)
+            </button>
+            <button
+              type="button"
+              onClick={() => setFilterMode('OR')}
+              className={`px-3 py-1.5 text-sm ${
+                filterMode === 'OR' 
+                  ? 'bg-blue-600 text-white' 
+                  : 'bg-white text-gray-700 hover:bg-gray-50'
+              }`}
+            >
+              Match ANY (OR)
+            </button>
+          </div>
+        </div>
+      )}
 
       {/* Search results */}
       {loading ? (
