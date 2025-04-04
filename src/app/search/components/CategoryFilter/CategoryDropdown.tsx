@@ -7,7 +7,14 @@ interface CategoryDropdownProps {
   selectedCategories: string[];
   setSelectedCategories: (categories: string[]) => void;
   filteredCategories: Array<{id: string; name: string; group: string}>;
-  categoryGroups: Array<{ title: string; categories: Array<{ id: string; name: string; group: string }> }>; 
+  categoryGroups: {
+    title: string;
+    categories: {
+        id: string;
+        name: string;
+        group_name: string;
+    }[];
+  }[]; 
 }
 
 export default function CategoryDropdown({
@@ -54,11 +61,10 @@ export default function CategoryDropdown({
                     }`}
                     onClick={(e) => {
                       e.stopPropagation();
-                      setSelectedCategories(prev => 
-                        isSelected 
-                          ? prev.filter((id: string) => id !== category.id) 
-                          : [...prev, category.id]
-                      );
+                      const newCategories = isSelected 
+                        ? selectedCategories.filter(id => id !== category.id) 
+                        : [...selectedCategories, category.id];
+                      setSelectedCategories(newCategories);
                     }}
                   >
                     <span className={`block truncate ${isSelected ? 'font-semibold' : 'font-normal'}`}>
