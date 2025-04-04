@@ -3,35 +3,14 @@
 import Image from 'next/image'
 import { useState, useEffect, useRef } from 'react'
 import { createClientComponentClient } from '@supabase/auth-helpers-nextjs'
-// import { Combobox } from '@headlessui/react'
 import { ChevronUpDownIcon, CheckIcon } from '@heroicons/react/24/outline'
 import { categoryGroups } from '@/constants/categories1'
-
-// Keep existing interfaces
-interface DatabaseCategory {
-  id: string;
-  name: string;
-  group_name: string;
-}
-
-interface DatabasePostCategory {
-  category: DatabaseCategory[];
-}
-
-interface DatabasePost {
-  id: string;
-  title: string;
-  content: string;
-  image_url: string;
-  created_at: string;
-  categories: DatabasePostCategory[];
-}
-
+import Link from 'next/link'
 interface PostCategory {
   category: {
     id: string;
     name: string;
-    group_name: string;
+    group_name: string | null;
   }
 }
 
@@ -45,13 +24,14 @@ interface Post {
 }
 
 export default function SearchPage() {
-  // State management
   const [searchQuery, setSearchQuery] = useState('')
   const [query, setQuery] = useState('')
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
   const [posts, setPosts] = useState<Post[]>([])
   const [loading, setLoading] = useState(false)
   const [isDropdownOpen, setIsDropdownOpen] = useState(false)
+  const [filterMode, setFilterMode] = useState<'AND' | 'OR'>('AND')
+
   const dropdownRef = useRef<HTMLDivElement>(null)
   const supabase = createClientComponentClient()
 
@@ -91,7 +71,8 @@ export default function SearchPage() {
     const fetchPosts = async () => {
       setLoading(true)
       try {
-        const { data, error } = await supabase
+        // First, get all posts with their direct categories (for legacy posts)
+        const { data: postsData, error: postsError } = await supabase
           .from('posts')
           .select(`
             id,
@@ -99,36 +80,79 @@ export default function SearchPage() {
             content,
             image_url,
             created_at,
-            categories:posts_categories (
-              category:categories (
-                id,
-                name,
-                group_name
-              )
-            )
+            category,
+            category_group
           `)
           .order('created_at', { ascending: false })
-    
-        if (error) throw error
-
-        const dbPosts = (data as unknown) as DatabasePost[]
-    
-        // Transform database posts to our format
-        const typedPosts: Post[] = dbPosts.map(post => ({
-          id: post.id,
-          title: post.title,
-          content: post.content,
-          image_url: post.image_url,
-          created_at: post.created_at,
-          categories: post.categories.map(categoryWrapper => ({
-            category: {
-              id: categoryWrapper.category[0].id,
-              name: categoryWrapper.category[0].name,
-              group_name: categoryWrapper.category[0].group_name
-            }
-          }))
-        }))
-    
+        
+        if (postsError) throw postsError
+        
+        // Then get all categories for posts using the posts_categories table (for new posts)
+        const postIds = postsData.map(post => post.id)
+        
+        const { data: categoriesData, error: categoriesError } = await supabase
+          .from('posts_categories')
+          .select(`
+            post_id,
+            category_id,
+            category_name,
+            category_group
+          `)
+          .in('post_id', postIds)
+        
+        if (categoriesError) throw categoriesError
+        
+        // Now combine the data manually, handling both legacy and new category formats
+        const typedPosts: Post[] = postsData.map(post => {
+          // Find all categories for this post from posts_categories table
+          const relationCategories = categoriesData
+            .filter(cat => cat.post_id === post.id)
+            .map(cat => {
+              // Make sure category_name isn't actually an ID
+              const displayName = cat.category_name && !cat.category_name.startsWith('legacy-') 
+                ? cat.category_name 
+                : cat.category_id.replace(/^legacy-/, '').replace(/-/g, ' ');
+                
+              return {
+                category: {
+                  id: cat.category_id,
+                  name: displayName,
+                  group_name: cat.category_group
+                }
+              };
+            });
+          // Check if this is a legacy post with direct category
+          const hasLegacyCategory = post.category && post.category.trim() !== ''
+          
+          const allCategories = [...relationCategories]
+          
+          // If it's a legacy post with a direct category, add that too
+          if (hasLegacyCategory) {
+            // For legacy posts, create a synthetic ID based on the category name
+            // This ensures we can filter on it consistently
+            const legacyCategoryId = `legacy-${post.category.toLowerCase().replace(/\s+/g, '-')}`
+            
+            allCategories.push({
+              category: {
+                id: legacyCategoryId,
+                name: post.category,
+                group_name: post.category_group
+              }
+            })
+          }
+          
+          return {
+            id: post.id,
+            title: post.title,
+            content: post.content,
+            image_url: post.image_url || undefined,
+            created_at: post.created_at,
+            categories: allCategories,
+            // We could add a flag here to identify legacy posts if needed
+            isLegacy: hasLegacyCategory && relationCategories.length === 0
+          }
+        })
+        
         // Filter posts by both search query and categories
         const filteredPosts = typedPosts.filter(post => {
           // Check if post matches search query
@@ -137,15 +161,30 @@ export default function SearchPage() {
               post.content.toLowerCase().includes(searchQuery.toLowerCase())
             : true
 
-          // Check if post has all selected categories
-          const matchesCategories = selectedCategories.length === 0 || 
-            selectedCategories.every(selectedId =>
-              post.categories.some(pc => pc.category.id === selectedId)
-            )
+          // Check if post matches categories based on filter mode
+          let matchesCategories = true;
+          if (selectedCategories.length > 0) {
+            // For legacy posts, we need to check if any selected category matches the post.category
+            // This is a special case for backward compatibility
+            // const legacySelectedCategoryIds = selectedCategories.filter(id => id.startsWith('legacy-'))
+            // const relationSelectedCategoryIds = selectedCategories.filter(id => !id.startsWith('legacy-'))
+            
+            if (filterMode === 'AND') {
+              // AND condition: post must have ALL selected categories
+              matchesCategories = selectedCategories.every(selectedId =>
+                post.categories.some(pc => pc.category.id === selectedId)
+              );
+            } else {
+              // OR condition: post must have ANY selected category
+              matchesCategories = selectedCategories.some(selectedId =>
+                post.categories.some(pc => pc.category.id === selectedId)
+              );
+            }
+          }
 
           return matchesSearch && matchesCategories
         })
-    
+        
         setPosts(filteredPosts)
       } catch (error) {
         console.error('Error fetching posts:', error)
@@ -153,12 +192,10 @@ export default function SearchPage() {
         setLoading(false)
       }
     }
-
-    // Debounce search to avoid excessive database calls
+    
     const debounce = setTimeout(() => fetchPosts(), 300)
     return () => clearTimeout(debounce)
-  }, [searchQuery, selectedCategories, supabase])
-
+  }, [searchQuery, selectedCategories, filterMode, supabase])
   // Handler for toggling the dropdown
   const handleDropdownToggle = (e: React.MouseEvent) => {
     e.stopPropagation()
@@ -169,6 +206,12 @@ export default function SearchPage() {
   const selectedCategoryNames = selectedCategories.map(id => 
     allCategories.find(cat => cat.id === id)?.name
   ).filter(Boolean)
+
+  function isUUID(str: string): boolean {
+    // Simple UUID check - could be more precise but this captures most UUIDs
+    const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i;
+    return uuidPattern.test(str);
+  }
 
   return (
     <div className="max-w-6xl mx-auto p-6">
@@ -308,6 +351,37 @@ export default function SearchPage() {
         </div>
       </div>
 
+      {/* Category filter mode toggle (only when multiple categories selected) */}
+      {selectedCategories.length > 1 && (
+        <div className="flex items-center justify-start py-2">
+          <span className="text-sm font-medium mr-2">Filter mode:</span>
+          <div className="flex border rounded-lg overflow-hidden">
+            <button
+              type="button"
+              onClick={() => setFilterMode('AND')}
+              className={`px-3 py-1.5 text-sm ${
+                filterMode === 'AND' 
+                  ? 'bg-blue-600 text-white' 
+                  : 'bg-white text-gray-700 hover:bg-gray-50'
+              }`}
+            >
+              Match ALL (AND)
+            </button>
+            <button
+              type="button"
+              onClick={() => setFilterMode('OR')}
+              className={`px-3 py-1.5 text-sm ${
+                filterMode === 'OR' 
+                  ? 'bg-blue-600 text-white' 
+                  : 'bg-white text-gray-700 hover:bg-gray-50'
+              }`}
+            >
+              Match ANY (OR)
+            </button>
+          </div>
+        </div>
+      )}
+
       {/* Search results */}
       {loading ? (
         <div className="text-center py-8 text-gray-500">Searching posts...</div>
@@ -316,50 +390,68 @@ export default function SearchPage() {
           No posts found matching your criteria
         </div>
       ) : (
+        
+        // Then replace your posts map section with this:
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
           {posts.map((post) => (
-            <article 
-              key={post.id}
-              className="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-200 bg-white"
+            <Link 
+              key={post.id} 
+              href={`/post/${post.id}`} 
+              className="block"
             >
-              {post.image_url && (
-                <div className="relative h-48">
-                  <Image
-                    src={post.image_url}
-                    alt={post.title}
-                    fill
-                    className="object-cover"
-                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                  />
-                </div>
-              )}
-              <div className="p-4">
-                <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
-                <p className="text-gray-600 mb-4 line-clamp-3">{post.content}</p>
-                
-                <div className="flex flex-wrap gap-2 mb-3">
-                  {post.categories.map(({ category }) => (
-                    <span 
-                      key={category.id}
-                      className="px-2 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
-                    >
-                      {category.name}
-                    </span>
-                  ))}
-                </div>
+              <article 
+                className="border rounded-lg overflow-hidden hover:shadow-lg transition-shadow duration-200 bg-white h-full"
+              >
+                {post.image_url && (
+                  <div className="relative h-48">
+                    <Image
+                      src={post.image_url}
+                      alt={post.title}
+                      fill
+                      className="object-cover"
+                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                    />
+                  </div>
+                )}
+                <div className="p-4">
+                  <h2 className="text-xl font-semibold mb-2">{post.title}</h2>
+                  <p className="text-gray-600 mb-4 line-clamp-3">{post.content}</p>
+                  
+                  <div className="flex flex-wrap gap-2 mb-3">
+                    {/* Use a Map to deduplicate categories by name */}
+                    {Array.from(
+                      new Map(
+                        post.categories.map(({ category }) => [category.name, category])
+                      ).values()
+                    ).map((category) => {
+                    const displayName = category.name.startsWith('legacy-') 
+                      ? category.name.substring(7).replace(/-/g, ' ') 
+                      : !isUUID(category.name) && category.name;
 
-                <time 
-                  className="text-sm text-gray-500"
-                  dateTime={post.created_at}
-                >
-                  {new Date(post.created_at).toLocaleDateString('en-US', {
-                    year: 'numeric',
-                    month: 'long',
-                    day: 'numeric'
-                  })}
-                </time>
-              </div>
-            </article>
+                    return (
+                      <span 
+                        key={category.id}
+                        className="px-2 py-1 bg-gray-100 text-gray-700 rounded-full text-sm"
+                      >
+                        {displayName}
+                      </span>
+                      )
+                    })}
+                  </div>
+
+                  <time 
+                    className="text-sm text-gray-500"
+                    dateTime={post.created_at}
+                  >
+                    {new Date(post.created_at).toLocaleDateString('en-US', {
+                      year: 'numeric',
+                      month: 'long',
+                      day: 'numeric'
+                    })}
+                  </time>
+                </div>
+              </article>
+            </Link>
           ))}
         </div>
       )}
