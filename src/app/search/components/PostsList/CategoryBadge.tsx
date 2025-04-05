@@ -1,7 +1,7 @@
 import React from 'react';
 
 interface CategoryBadgeProps {
-  name: string;
+  name: string | null;
 }
 
 export default function CategoryBadge({ name }: CategoryBadgeProps) {
