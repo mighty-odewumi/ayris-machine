@@ -3,8 +3,8 @@
 import { useState } from 'react'
 import { categoryGroups } from '@/constants/categories1'
 import SearchInput from './components/SearchInput'
-import CategoryFilter from './components/CategoryFilter'
-import FilterModeToggle from './components/CategoryFilter/FilterModeToggle'
+import CategoryFilter from '@/components/CategoryFilter/'
+import FilterModeToggle from '@/components/CategoryFilter/FilterModeToggle'
 import PostsList from './components/PostsList'
 import { usePosts } from '@/hooks/usePosts'
 

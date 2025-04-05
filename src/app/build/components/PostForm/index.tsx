@@ -3,18 +3,38 @@
 import { useState, useRef } from 'react'
 import FormFields from './FormFields'
 import ImageUploader from './ImageUploader'
-import CategorySelector from './CategorySelector'
+import CategoryFilter from '@/components/CategoryFilter'
 import { submitPost } from '@/app/actions'
+import { categoryGroups } from '@/constants/categories1'
 
 export default function PostForm() {
   const [title, setTitle] = useState('')
   const [content, setContent] = useState('')
   const [selectedCategories, setSelectedCategories] = useState<string[]>([])
+  const [query, setQuery] = useState<string>("");
   const [selectedCategoryData, setSelectedCategoryData] = useState<{id: string, name: string, group: string}[]>([])
   const [previewUrl, setPreviewUrl] = useState<string | null>(null)
+  const [isDropdownOpen, setIsDropdownOpen] = useState<boolean>(false)
   const [loading, setLoading] = useState(false)
   const [formError, setFormError] = useState<string | null>(null)
   const formRef = useRef<HTMLFormElement>(null)
+
+  // Process categories
+  const allCategories = categoryGroups.flatMap(group => 
+    group.categories.map(category => ({
+      ...category,
+      group: group.title
+    }))
+  )
+
+  const filteredCategories = query === ''
+    ? allCategories
+    : allCategories.filter((category) =>
+        category.name
+          .toLowerCase()
+          .replace(/\s+/g, '')
+          .includes(query.toLowerCase().replace(/\s+/g, ''))
+      )
 
   async function handleSubmit(formData: FormData) {
     setLoading(true)
@@ -62,7 +82,14 @@ export default function PostForm() {
             value={JSON.stringify(selectedCategoryData)}
           />
 
-          <CategorySelector 
+          <CategoryFilter 
+            query={query}
+            setQuery={setQuery}
+            isDropdownOpen={isDropdownOpen}
+            setIsDropdownOpen={setIsDropdownOpen}
+            allCategories={allCategories}
+            filteredCategories={filteredCategories}
+            categoryGroups={categoryGroups}
             selectedCategories={selectedCategories}
             setSelectedCategories={setSelectedCategories}
             selectedCategoryData={selectedCategoryData}
