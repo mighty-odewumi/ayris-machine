@@ -27,7 +27,7 @@ export default function CategoryPills({
               if (onRemoveCategory) {
                 onRemoveCategory(id);
               } else {
-                setSelectedCategories(prev.filter(c => c !== id));
+                  setSelectedCategories(selectedCategories.filter(c => c !== id));
               }
             }}
           >

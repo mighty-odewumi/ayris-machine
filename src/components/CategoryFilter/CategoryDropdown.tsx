@@ -67,11 +67,10 @@ export default function CategoryDropdown({
                       if (onCategorySelect) {
                         onCategorySelect(category.id);
                       } else {
-                        setSelectedCategories(prev => 
-                          isSelected 
-                            ? prev.filter(id => id !== category.id) 
-                            : [...prev, category.id]
-                        );
+                        const newCategories = isSelected 
+                          ? selectedCategories.filter(id => id !== category.id) 
+                          : [...selectedCategories, category.id];
+                        setSelectedCategories(newCategories);
                       }
                     }}
                   >

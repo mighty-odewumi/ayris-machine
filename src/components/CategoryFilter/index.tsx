@@ -43,7 +43,7 @@ export default function CategoryFilter({
   categoryGroups,
   isDropdownOpen,
   setIsDropdownOpen,
-  selectedCategoryData,
+  // selectedCategoryData,
   setSelectedCategoryData
 }: CategoryFilterProps) {
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -63,11 +63,11 @@ export default function CategoryFilter({
 
   const handleCategorySelect = (categoryId: string) => {
     const isSelected = selectedCategories.includes(categoryId);
-    
-    // Update selectedCategories
-    setSelectedCategories(prev => 
-      isSelected ? prev.filter(id => id !== categoryId) : [...prev, categoryId]
-    );
+
+    const newCategories = isSelected 
+      ? selectedCategories.filter(id => id !== categoryId) 
+      : [...selectedCategories, categoryId];
+    setSelectedCategories(newCategories);
     
     // If we have setSelectedCategoryData (in build page context), update it too
     if (setSelectedCategoryData) {
