@@ -15,6 +15,7 @@ interface CategoryDropdownProps {
         group_name: string;
     }[];
   }[]; 
+  onCategorySelect?: (categoryId: string) => void;
 }
 
 export default function CategoryDropdown({
@@ -23,7 +24,8 @@ export default function CategoryDropdown({
   selectedCategories,
   setSelectedCategories,
   filteredCategories,
-  categoryGroups
+  categoryGroups,
+  onCategorySelect
 }: CategoryDropdownProps) {
   return (
     <div className="absolute z-20 mt-1 w-full max-h-96 overflow-y-auto rounded-md bg-white shadow-lg border p-2">
@@ -61,10 +63,15 @@ export default function CategoryDropdown({
                     }`}
                     onClick={(e) => {
                       e.stopPropagation();
-                      const newCategories = isSelected 
-                        ? selectedCategories.filter(id => id !== category.id) 
-                        : [...selectedCategories, category.id];
-                      setSelectedCategories(newCategories);
+
+                      if (onCategorySelect) {
+                        onCategorySelect(category.id);
+                      } else {
+                        const newCategories = isSelected 
+                          ? selectedCategories.filter(id => id !== category.id) 
+                          : [...selectedCategories, category.id];
+                        setSelectedCategories(newCategories);
+                      }
                     }}
                   >
                     <span className={`block truncate ${isSelected ? 'font-semibold' : 'font-normal'}`}>
@@ -91,6 +98,7 @@ export default function CategoryDropdown({
               {selectedCategories.length} categories selected
             </span>
             <button
+              type="button"
               onClick={(e) => {
                 e.stopPropagation();
                 setSelectedCategories([]);

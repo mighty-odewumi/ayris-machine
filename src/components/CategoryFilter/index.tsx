@@ -5,26 +5,32 @@ import CategoryPills from './CategoryPills';
 import { useClickOutside } from '@/hooks/useClickOutside';
 
 interface CategoryFilterProps {
-  query: string;
-  setQuery: (query: string) => void;
+  // Common props
+  query: string; 
+  setQuery: (query: string) => void; 
   selectedCategories: string[];
   setSelectedCategories: (categories: string[]) => void;
-  allCategories: Array<{
-    id: string; name: string; group: string
-  }>;
-  filteredCategories: Array<{
-    id: string; name: string; group: string
-  }>;
-  categoryGroups:  {
+  allCategories: Array<{id: string; name: string; group: string}>;
+  filteredCategories: Array<{id: string; name: string; group: string}>;
+  categoryGroups: Array<{
     title: string;
-    categories: {
-        id: string;
-        name: string;
-        group_name: string;
-    }[];
-  }[];
+    categories: Array<{
+      id: string;
+      name: string;
+      group_name: string;
+    }>;
+  }>;
   isDropdownOpen: boolean;
   setIsDropdownOpen: React.Dispatch<React.SetStateAction<boolean>>;
+  
+  // Optional props for different contexts
+  placeholder?: string;  // Different placeholder text
+  onCategorySelect?: (categoryId: string, categoryName: string, groupName: string) => void; // For build page
+  variant?: 'search' | 'postForm'; 
+  selectedCategoryData?: Array<{id: string, name: string, group: string}>;
+  setSelectedCategoryData?: React.Dispatch<React.SetStateAction<Array<{id: string, name: string, group: string}>>>;
+
+  // setSelectedCategoryData?: (data: Array<{id: string; name: string; group: string}>) => void; // For build page
 }
 
 export default function CategoryFilter({
@@ -36,7 +42,9 @@ export default function CategoryFilter({
   filteredCategories,
   categoryGroups,
   isDropdownOpen,
-  setIsDropdownOpen
+  setIsDropdownOpen,
+  // selectedCategoryData,
+  setSelectedCategoryData
 }: CategoryFilterProps) {
   const dropdownRef = useRef<HTMLDivElement>(null);
   
@@ -52,10 +60,39 @@ export default function CategoryFilter({
     e.stopPropagation();
     setIsDropdownOpen(prev => !prev);
   };
+
+  const handleCategorySelect = (categoryId: string) => {
+    const isSelected = selectedCategories.includes(categoryId);
+
+    const newCategories = isSelected 
+      ? selectedCategories.filter(id => id !== categoryId) 
+      : [...selectedCategories, categoryId];
+    setSelectedCategories(newCategories);
+    
+    // If we have setSelectedCategoryData (in build page context), update it too
+    if (setSelectedCategoryData) {
+      const category = allCategories.find(cat => cat.id === categoryId);
+      
+      if (category) {
+        if (isSelected) {
+          // Remove from data if deselected
+          setSelectedCategoryData(prev => prev.filter(item => item.id !== categoryId));
+        } else {
+          // Add to data if selected
+          setSelectedCategoryData(prev => [...prev, {
+            id: category.id,
+            name: category.name,
+            group: category.group
+          }]);
+        }
+      }
+    }
+  };
   
   return (
     <div className="relative" ref={dropdownRef}>
       <button 
+        type="button"
         onClick={handleDropdownToggle}
         className="w-full p-3 border rounded-lg text-left flex items-center justify-between bg-white"
       >
@@ -75,6 +112,7 @@ export default function CategoryFilter({
           setSelectedCategories={setSelectedCategories}
           filteredCategories={filteredCategories}
           categoryGroups={categoryGroups}
+          onCategorySelect={handleCategorySelect}
         />
       )}
       
@@ -84,6 +122,7 @@ export default function CategoryFilter({
           selectedCategories={selectedCategories}
           setSelectedCategories={setSelectedCategories}
           allCategories={allCategories}
+          onRemoveCategory={handleCategorySelect}
         />
       )}
     </div>

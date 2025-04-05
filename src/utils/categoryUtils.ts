@@ -1,3 +1,5 @@
+import { PostCategory } from "@/types/post"
+
 // UUID detection
 export function isUUID(str: string): boolean {
   const uuidPattern = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i
@@ -18,7 +20,7 @@ export function formatCategoryName(name: string): string | null {
 }
 
 // Deduplicate categories by name
-export function deduplicateCategories(categories: any[]) {
+export function deduplicateCategories(categories: PostCategory[]) {
   return Array.from(
     new Map(
       categories.map(({ category }) => [category.name, category])
