@@ -3,6 +3,8 @@ import { bibleNewTestament } from "@/constants/bibleNewTestament";
 
 
 export default function BibleNewTestament() {
+  console.log(bibleNewTestament);
+  
   return (
     <BrownScroll 
       objectName="The Project Gutenberg eBook of The King James Version of the Bible"

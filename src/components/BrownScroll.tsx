@@ -1,6 +1,5 @@
 import Link from "next/link";
 
-
 export default function BrownScroll({objectName, header, mainBody}: {objectName: string, header: string, mainBody: string}) {
   return (
     <>
@@ -12,7 +11,10 @@ export default function BrownScroll({objectName, header, mainBody}: {objectName:
           <h1 id="home-intro-header">
             {header}
           </h1>
-          <p>{mainBody}</p>
+
+          <pre className="text-justify text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl formatted-text">
+            {mainBody}
+          </pre>
 
           <aside>
             <span className="font-extrabold">

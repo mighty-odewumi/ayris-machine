@@ -1,4 +1,5 @@
-export const bibleNewTestament = `
+
+const text = `
   The Gospel According to Saint Matthew
 
 
@@ -23213,3 +23214,49 @@ Even so, come, Lord Jesus.
 
 
 `;
+
+
+// function formatText(inputText: string) {
+//   // Split the text into verses
+//   const lines = inputText.split(/\n+/); // Split by newlines
+
+//   // Join the lines back with a newline at the end of each line
+//   return lines.join('\n');
+// }
+
+// export const bibleNewTestament = formatText(text);
+
+// // Output the formatted text
+// console.log(bibleNewTestament);
+
+function formatText(inputText: string): string {
+  // Regular expression to match verse number patterns like 1:1, 1:2, etc.
+  const versePattern = /(\d+:\d+)/g;
+
+  // Add a newline before each verse number (if it's not already at the start of the string)
+  const formattedText = inputText.replace(versePattern, '\n$1');
+
+  // Return the formatted text
+  return formattedText.trim();
+}
+
+// Define your text or initialize the variable with the input text
+const newText = `
+    1:1 The book of the generation of Jesus Christ, the son of David, the
+    son of Abraham.
+
+    1:2 Abraham begat Isaac; and Isaac begat Jacob; and Jacob begat Judas
+    and his brethren; 1:3 And Judas begat Phares and Zara of Thamar; and
+    Phares begat Esrom; and Esrom begat Aram; 1:4 And Aram begat Aminadab;
+    and Aminadab begat Naasson; and Naasson begat Salmon; 1:5 And Salmon
+    begat Booz of Rachab; and Booz begat Obed of Ruth; and Obed begat
+    Jesse; 1:6 And Jesse begat David the king; and David the king begat
+    Solomon of her that had been t
+`;
+
+// Call the formatText function with newText
+export const bibleNewTestament: string = formatText(text);
+
+// Output the formatted text
+console.log(bibleNewTestament);
+
