@@ -12,9 +12,14 @@ export default function BrownScroll({objectName, header, mainBody}: {objectName:
             {header}
           </h1>
 
-          <pre className="text-justify text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl formatted-text">
+          {/* <pre className="text-justify text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl formatted-text">
             {mainBody}
-          </pre>
+          </pre> */}
+
+          <section 
+            className="formatted-text" 
+            dangerouslySetInnerHTML={{ __html: mainBody }} 
+          />
 
           <aside>
             <span className="font-extrabold">

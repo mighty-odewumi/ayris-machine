@@ -1,5 +1,76 @@
+export const bibleText = `
+  The Old Testament of the King James Version of the Bible
+  The First Book of Moses: Called Genesis
+  The Second Book of Moses: Called Exodus
+  The Third Book of Moses: Called Leviticus
+  The Fourth Book of Moses: Called Numbers
+  The Fifth Book of Moses: Called Deuteronomy
+  The Book of Joshua
+  The Book of Judges
+  The Book of Ruth
+  The First Book of Samuel
+  The Second Book of Samuel
+  The First Book of the Kings
+  The Second Book of the Kings
+  The First Book of the Chronicles
+  The Second Book of the Chronicles
+  Ezra
+  The Book of Nehemiah
+  The Book of Esther
+  The Book of Job
+  The Book of Psalms
+  The Proverbs
+  Ecclesiastes
+  The Song of Solomon
+  The Book of the Prophet Isaiah
+  The Book of the Prophet Jeremiah
+  The Lamentations of Jeremiah
+  The Book of the Prophet Ezekiel
+  The Book of Daniel
+  Hosea
+  Joel
+  Amos
+  Obadiah
+  Jonah
+  Micah
+  Nahum
+  Habakkuk
+  Zephaniah
+  Haggai
+  Zechariah
+  Malachi
 
-const text = `
+  The New Testament of the King James Bible
+  The Gospel According to Saint Matthew
+  The Gospel According to Saint Mark
+  The Gospel According to Saint Luke
+  The Gospel According to Saint John
+  The Acts of the Apostles
+  The Epistle of Paul the Apostle to the Romans
+  The First Epistle of Paul the Apostle to the Corinthians
+  The Second Epistle of Paul the Apostle to the Corinthians
+  The Epistle of Paul the Apostle to the Galatians
+  The Epistle of Paul the Apostle to the Ephesians
+  The Epistle of Paul the Apostle to the Philippians
+  The Epistle of Paul the Apostle to the Colossians
+  The First Epistle of Paul the Apostle to the Thessalonians
+  The Second Epistle of Paul the Apostle to the Thessalonians
+  The First Epistle of Paul the Apostle to Timothy
+  The Second Epistle of Paul the Apostle to Timothy
+  The Epistle of Paul the Apostle to Titus
+  The Epistle of Paul the Apostle to Philemon
+  The Epistle of Paul the Apostle to the Hebrews
+  The General Epistle of James
+  The First Epistle General of Peter
+  The Second General Epistle of Peter
+  The First Epistle General of John
+  The Second Epistle General of John
+  The Third Epistle General of John
+  The General Epistle of Jude
+  The Revelation of Saint John the Divine
+`;
+
+export const text = `
   The Gospel According to Saint Matthew
 
 
@@ -23215,15 +23286,138 @@ Even so, come, Lord Jesus.
 
 `;
 
-function formatText(inputText: string): string {
-  // Regular expression to match verse number patterns like 1:1, 1:2, etc.
+
+// function formatText(inputText: string): string {
+//   // Regular expression to match verse number patterns like 1:1, 1:2, etc.
+//   const versePattern = /(\d+:\d+)/g;
+
+//   // Add a newline before each verse number (if it's not already at the start of the string)
+//   const formattedText = inputText.replace(versePattern, '\n$1');
+
+//   return formattedText.trim();
+// }
+
+// export const bibleNewTestament: string = formatText(text);
+
+
+// export const formatBibleText = (inputText: string) => {
+//   // Regular expression to match Bible book titles
+//   const bookTitlePattern = /^(The (First|Second|Third|Fourth|Fifth) Book of Moses: Called .+|The (Book of .+|Gospel According to Saint .+|Epistle of Paul the Apostle to .+|Revelation of Saint .+))$/gm;
+
+//   // Split the text into lines
+//   const lines = inputText.split('\n');
+
+//   // Format each line: Apply styles to book titles
+//   const formattedText = lines.map((line) => {
+//     // If the line matches a book title, wrap it in HTML for styling
+//     if (bookTitlePattern.test(line)) {
+//       return `<h2 style="color: #333; font-weight: bold; font-size: 1.5em;">${line}</h2>`;
+//     }
+//     return `<pre>${line}</pre>`;
+//   });
+
+//   return formattedText.join('');
+// };
+
+// console.log(formatBibleText(bibleText));
+
+
+
+// List of Bible book titles to match against
+const bookTitles = [
+  "The Old Testament of the King James Version of the Bible",
+  "The First Book of Moses: Called Genesis",
+  "The Second Book of Moses: Called Exodus",
+  "The Third Book of Moses: Called Leviticus",
+  "The Fourth Book of Moses: Called Numbers",
+  "The Fifth Book of Moses: Called Deuteronomy",
+  "The Book of Joshua",
+  "The Book of Judges",
+  "The Book of Ruth",
+  "The First Book of Samuel",
+  "The Second Book of Samuel",
+  "The First Book of the Kings",
+  "The Second Book of the Kings",
+  "The First Book of the Chronicles",
+  "The Second Book of the Chronicles",
+  "Ezra",
+  "The Book of Nehemiah",
+  "The Book of Esther",
+  "The Book of Job",
+  "The Book of Psalms",
+  "The Proverbs",
+  "Ecclesiastes",
+  "The Song of Solomon",
+  "The Book of the Prophet Isaiah",
+  "The Book of the Prophet Jeremiah",
+  "The Lamentations of Jeremiah",
+  "The Book of the Prophet Ezekiel",
+  "The Book of Daniel",
+  "Hosea",
+  "Joel",
+  "Amos",
+  "Obadiah",
+  "Jonah",
+  "Micah",
+  "Nahum",
+  "Habakkuk",
+  "Zephaniah",
+  "Haggai",
+  "Zechariah",
+  "Malachi",
+  "The New Testament of the King James Bible",
+  "The Gospel According to Saint Matthew",
+  "The Gospel According to Saint Mark",
+  "The Gospel According to Saint Luke",
+  "The Gospel According to Saint John",
+  "The Acts of the Apostles",
+  "The Epistle of Paul the Apostle to the Romans",
+  "The First Epistle of Paul the Apostle to the Corinthians",
+  "The Second Epistle of Paul the Apostle to the Corinthians",
+  "The Epistle of Paul the Apostle to the Galatians",
+  "The Epistle of Paul the Apostle to the Ephesians",
+  "The Epistle of Paul the Apostle to the Philippians",
+  "The Epistle of Paul the Apostle to the Colossians",
+  "The First Epistle of Paul the Apostle to the Thessalonians",
+  "The Second Epistle of Paul the Apostle to the Thessalonians",
+  "The First Epistle of Paul the Apostle to Timothy",
+  "The Second Epistle of Paul the Apostle to Timothy",
+  "The Epistle of Paul the Apostle to Titus",
+  "The Epistle of Paul the Apostle to Philemon",
+  "The Epistle of Paul the Apostle to the Hebrews",
+  "The General Epistle of James",
+  "The First Epistle General of Peter",
+  "The Second General Epistle of Peter",
+  "The First Epistle General of John",
+  "The Second Epistle General of John",
+  "The Third Epistle General of John",
+  "The General Epistle of Jude",
+  "The Revelation of Saint John the Divine",
+];
+
+export function formatBibleText(inputText: string): string {
+  // Regular expression to match the verse numbers (e.g., 1:1, 1:2, etc.)
   const versePattern = /(\d+:\d+)/g;
 
-  // Add a newline before each verse number (if it's not already at the start of the string)
-  const formattedText = inputText.replace(versePattern, '\n$1');
+  // Split the text into parts using the verse number as the delimiter
+  const parts = inputText.split(versePattern);
 
-  return formattedText.trim();
+  // Format each part
+  const formattedText = parts.map((part, index) => {
+    // If it's a verse number (odd index), wrap it in a styled <span>
+    if (index % 2 === 1) {
+      return `<span style="color: #333; font-weight: bold; font-size: 1.5em;">${part}</span>`;
+    }
+
+    // If it's a book title (match against the list), wrap it in <h2> with styling
+    if (bookTitles.includes(part.trim())) {
+      return `<h2 style="color: #333; font-weight: bold; font-size: 1.5em;">${part}</h2>`;
+    }
+
+    // For Bible verses, wrap them in <pre> to preserve the format, but keep each verse on a new line
+    return `<pre style="white-space: pre-line; margin: 0; padding: 0;">${part}</pre>`;
+  });
+
+  // Join the formatted parts back into a string
+  return formattedText.join('');
 }
-
-export const bibleNewTestament: string = formatText(text);
-
