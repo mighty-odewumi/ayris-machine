@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-export default function BrownScroll({objectName, header, mainBody}: {objectName: string, header: string, mainBody: string}) {
+export default function BrownScroll({objectName = "Ayris Machine", header, mainBody}: {objectName?: string, header?: string, mainBody: string}) {
   return (
     <>
       <div id="home-intro">
