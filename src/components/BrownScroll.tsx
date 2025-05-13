@@ -1,20 +1,16 @@
-import Link from "next/link";
+import ScrollBottomLinks from "./ScrollBottomLinks";
 
-export default function BrownScroll({objectName = "Ayris Machine", header, mainBody}: {objectName?: string, header?: string, mainBody: string}) {
+export default function BrownScroll({objectName = "Ayris Beauty Machine", header, mainBody}: {objectName?: string, header?: string, mainBody: string}) {
   return (
     <>
       <div id="home-intro">
-        <article>
+        <article className="brown-article">
 
-          <time data-align="center">{objectName}</time>
+          <time data-align="center" className="brown-time">{objectName}</time>
 
           <h1 id="home-intro-header">
             {header}
           </h1>
-
-          {/* <pre className="text-justify text-sm md:text-base lg:text-lg xl:text-xl 2xl:text-2xl formatted-text">
-            {mainBody}
-          </pre> */}
 
           <section 
             className="formatted-text" 
@@ -31,9 +27,7 @@ export default function BrownScroll({objectName = "Ayris Machine", header, mainB
             </span>
           </aside>
 
-          <aside className="my-8">
-            <Link href="/entry" className="underline">Go to Home</Link>
-          </aside>
+          <ScrollBottomLinks />
         </article>
       </div>
     </>
