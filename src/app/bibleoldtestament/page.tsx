@@ -1,4 +1,5 @@
 import BrownScroll from "@/components/BrownScroll";
+import { bibleOldTestament } from "@/constants/bibleOldTestament";
 
 export default function BibleOldTestament() {
   return (
@@ -6,7 +7,7 @@ export default function BibleOldTestament() {
       objectName="Old Testament - Sacred Text"
       title="Bible"
       artistName="Prophets, Poets, and Apostles"
-      mainBody=""
+      mainBody={bibleOldTestament}
     />
   )
 }
