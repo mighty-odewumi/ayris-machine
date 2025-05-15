@@ -17,10 +17,10 @@ export default function BrownScroll(
         <article className="brown-article">
 
           {/* <time data-align="center" className="brown-time">{objectName}</time> */}
-          <div className="scroll-top">
-            <time data-align="center" className="brown-top uppercase">{title}</time>
-            <time data-align="center" className="brown-top uppercase">{objectName}</time>
-            <time data-align="center" className="brown-top uppercase">{artistName}</time>
+          <div className="scroll-top flex flex-col mt-[-60px]">
+            <time data-align="center" className="brown-top uppercase mt-2">{title}</time>
+            <time data-align="center" className="brown-top uppercase mt-2">{objectName}</time>
+            <time data-align="center" className="brown-top uppercase mt-2">{artistName}</time>
           </div>
 
           {/* <h1 id="home-intro-header">
