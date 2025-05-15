@@ -7,6 +7,8 @@ export default function ScrollBottomLinks() {
       <br/>
       <Link href="/juliette" className="underline">Juliette</Link>
       <br/>
+      <Link href="/satyricon" className="underline">Satyricon</Link>
+      <br/>
       <Link href="/paradiselost" className="underline">Paradise Lost</Link>
       <br/>
       <Link href="/openlettertotheneodecadentmovement" className="underline">Open Letter to the Neodecadent Movement</Link>

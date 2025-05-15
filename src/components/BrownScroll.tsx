@@ -8,7 +8,7 @@ export default function BrownScroll(
   }: { 
   title: string; 
   artistName: string; 
-  objectName?: string; 
+  objectName: string; 
   mainBody: string;
 }) {
   return (
