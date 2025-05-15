@@ -7,7 +7,7 @@ export default function HomePage() {
       <div id="home-intro">
         <article className="home-article brown-article">
 
-          <p className="mt-20 whitespace-pre-line">
+          <p className="mt-[-6rem] whitespace-pre-line">
             {homePageText}
           </p>
 
