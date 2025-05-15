@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function ScrollBottomLinks() {
   return (
-    <aside className="my-8">
+    <aside className="my-6">
       <Link href="/entry" className="underline">Go to Home</Link>
       <br/>
       <Link href="/juliette" className="underline">Juliette</Link>
