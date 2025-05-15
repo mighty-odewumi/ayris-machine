@@ -817,7 +817,7 @@ export default function HomePage() {
 
           </p>
 
-          <aside>
+          {/* <aside>
             <span className="font-extrabold">
               ARTIST: 
             </span>
@@ -825,7 +825,7 @@ export default function HomePage() {
             <span className="font-semibold">
               &nbsp;Tristithea Ellen De Ellendeh 
             </span>
-          </aside>
+          </aside> */}
 
           <ScrollBottomLinks />
         </article>

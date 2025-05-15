@@ -5,6 +5,10 @@ export default function ScrollBottomLinks() {
     <aside className="my-8">
       <Link href="/entry" className="underline">Go to Home</Link>
       <br/>
+      <Link href="/juliette" className="underline">Juliette</Link>
+      <br/>
+      <Link href="/paradiselost" className="underline">Paradise Lost</Link>
+      <br/>
       <Link href="/openlettertotheneodecadentmovement" className="underline">Open Letter to the Neodecadent Movement</Link>
       <br/>
       <Link href="/biblenewtestament" className="underline">Bible New Testament</Link>

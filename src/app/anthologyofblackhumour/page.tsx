@@ -5,7 +5,8 @@ export default function AnthologyOfBlackHumour() {
   return (
     <BrownScroll 
       objectName="Ayris Beauty Machine"
-      header="Anthology of Black Humour"
+      title="Anthology of Black Humour"
+      artistName=""
       mainBody={blackHumour}
     />
   )

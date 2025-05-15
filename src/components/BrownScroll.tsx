@@ -1,23 +1,38 @@
 import ScrollBottomLinks from "./ScrollBottomLinks";
 
-export default function BrownScroll({objectName = "Ayris Beauty Machine", header, mainBody}: {objectName?: string, header?: string, mainBody: string}) {
+export default function BrownScroll(
+  { title, 
+    artistName, 
+    objectName = "Ayris Beauty Machine", 
+    mainBody, 
+  }: { 
+  title: string; 
+  artistName: string; 
+  objectName?: string; 
+  mainBody: string;
+}) {
   return (
     <>
       <div id="home-intro">
         <article className="brown-article">
 
-          <time data-align="center" className="brown-time">{objectName}</time>
+          {/* <time data-align="center" className="brown-time">{objectName}</time> */}
+          <div className="scroll-top">
+            <time data-align="center" className="brown-top uppercase">{title}</time>
+            <time data-align="center" className="brown-top uppercase">{objectName}</time>
+            <time data-align="center" className="brown-top uppercase">{artistName}</time>
+          </div>
 
-          <h1 id="home-intro-header">
+          {/* <h1 id="home-intro-header">
             {header}
-          </h1>
+          </h1> */}
 
           <section 
             className="formatted-text" 
             dangerouslySetInnerHTML={{ __html: mainBody }} 
           />
 
-          <aside>
+          {/* <aside>
             <span className="font-extrabold">
               ARTIST: 
             </span>
@@ -25,7 +40,7 @@ export default function BrownScroll({objectName = "Ayris Beauty Machine", header
             <span className="font-semibold">
               &nbsp;Tristithea Ellen De Ellendeh 
             </span>
-          </aside>
+          </aside> */}
 
           <ScrollBottomLinks />
         </article>

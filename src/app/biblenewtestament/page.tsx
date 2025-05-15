@@ -8,8 +8,9 @@ export default function BibleNewTestament() {
   
   return (
     <BrownScroll 
-      // objectName=""
-      header="Bible New Testament"
+      title="Bible"
+      objectName="Sacred Text"
+      artistName="APOSTLES, PROPHETS, AND POETS"
       mainBody={formatBibleText(text)}
     />
   )
