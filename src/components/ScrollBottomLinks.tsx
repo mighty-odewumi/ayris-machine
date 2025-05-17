@@ -9,7 +9,7 @@ export default function ScrollBottomLinks() {
       <br/>
       <Link href="/satyricon" className="underline bottom-links">Satyricon</Link>
       <br/>
-      <Link href="/paradiselost" className="underline cursor">Paradise Lost</Link>
+      <Link href="/paradiselost" className="underline bottom-links">Paradise Lost</Link>
       <br/>
       <Link href="/openlettertotheneodecadentmovement" className="underline bottom-links">Open Letter to the Neodecadent Movement</Link>
       <br/>
