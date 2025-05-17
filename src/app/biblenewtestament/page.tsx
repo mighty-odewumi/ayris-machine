@@ -4,7 +4,7 @@ import { text, formatBibleText } from "@/constants/bibleNewTestament";
 export default function BibleNewTestament() {
   // console.log(bibleNewTestament);
 
-  console.log(formatBibleText(text));
+  
   
   return (
     <BrownScroll 
