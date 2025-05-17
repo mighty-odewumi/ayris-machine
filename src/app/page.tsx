@@ -1,18 +1,32 @@
-"use client";
+import ScrollBottomLinks from "@/components/ScrollBottomLinks";
+import { homePageText } from "@/constants/homePageText";
+// import Image from "next/image";
 
-// import ImgMap from "@/components/responsiveMap";
-import dynamic from "next/dynamic";
-
-export default function Home() {
-
-  const MyMap = dynamic(
-    () => import('@/components/responsiveMap'),
-    { ssr: false }
-  )
-
+export default function HomePage() {
   return (
-    <main className={`container bg-[url("../../public/assets/background-edit1.png")]`}>
-      <MyMap />
-    </main>
-  );
+    <>
+      <div id="home-intro">
+        
+        <article className="home-article brown-article">
+          {/* <Image 
+            src="/assets/background.png" 
+            sizes="100vw"
+            alt="Background" 
+            width="200"
+            height="200"
+            style={{
+              width: '100%',
+              height: 'auto',
+            }} 
+          /> */}
+
+          <p className="mt-[-6rem] whitespace-pre-line">
+            {homePageText}
+          </p>
+
+          <ScrollBottomLinks />
+        </article>
+      </div>
+    </>
+  )
 }
