@@ -3,21 +3,21 @@ import Link from "next/link";
 export default function ScrollBottomLinks() {
   return (
     <aside className="my-6">
-      <Link href="/entry" className="underline">Go to Home</Link>
+      <Link href="/entry" className="underline bottom-links">Go to Home</Link>
       <br/>
-      <Link href="/juliette" className="underline">Juliette</Link>
+      <Link href="/juliette" className="underline bottom-links">Juliette</Link>
       <br/>
-      <Link href="/satyricon" className="underline">Satyricon</Link>
+      <Link href="/satyricon" className="underline bottom-links">Satyricon</Link>
       <br/>
-      <Link href="/paradiselost" className="underline">Paradise Lost</Link>
+      <Link href="/paradiselost" className="underline cursor">Paradise Lost</Link>
       <br/>
-      <Link href="/openlettertotheneodecadentmovement" className="underline">Open Letter to the Neodecadent Movement</Link>
+      <Link href="/openlettertotheneodecadentmovement" className="underline bottom-links">Open Letter to the Neodecadent Movement</Link>
       <br/>
-      <Link href="/biblenewtestament" className="underline">Bible New Testament</Link>
+      <Link href="/biblenewtestament" className="underline bottom-links">Bible New Testament</Link>
       <br/>
-      <Link href="/bibleoldtestament" className="underline">Bible Old Testament</Link>
+      <Link href="/bibleoldtestament" className="underline bottom-links">Bible Old Testament</Link>
       <br/>
-      <Link href="/anthologyofblackhumour" className="underline">Anthology of Black Humour</Link>
+      <Link href="/anthologyofblackhumour" className="underline bottom-links">Anthology of Black Humour</Link>
       <br/>
     </aside>
   )

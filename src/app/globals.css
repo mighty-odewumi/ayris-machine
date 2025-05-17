@@ -35,6 +35,12 @@ body {
   font-style: normal;
   font-variation-settings: "wdth" 100;
   text-transform: uppercase; 
+  /* cursor: url("../../public/assets/ayris-default-cursor.png"), auto; */
+  cursor: url("../../public/assets/ayris-default-cursor.png"), auto;
+}
+
+body:active {
+  cursor: url("../../public/assets/ayris-cursor-draggable-100x100.png"), auto;
 }
 
 .signup-form {
@@ -51,6 +57,10 @@ body {
   justify-content: center;
   align-items: center; 
   position: relative;
+}
+
+#home-intro:hover {
+  /* cursor: url(""); */
 }
 
 .brown-top {
@@ -102,6 +112,9 @@ aside {
   white-space: pre-line; 
 }
 
+.bottom-links:active {
+  cursor: url("../../public/assets/ayris-cursor-draggable-100x100.png"), auto;
+}
 
 @media screen and (max-width: 580px) {
   .brown-article {

@@ -1,6 +1,6 @@
 import ScrollBottomLinks from "@/components/ScrollBottomLinks";
 import { homePageText } from "@/constants/homePageText";
-import Image from "next/image";
+// import Image from "next/image";
 
 export default function HomePage() {
   return (
