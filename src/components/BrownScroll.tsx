@@ -23,7 +23,7 @@ export default function BrownScroll(
             <time data-align="center" className="brown-top uppercase text-xs">{artistName}</time>
           </div>
 
-          <div className="min-h-screen bg-black flex items-center justify-center p-4">
+          <div className="min-h-32 bg-black flex items-center justify-center mt-12 p-4">
             <VideoPlayer
               src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
               title="HYLAS AND THE NYMPHS"

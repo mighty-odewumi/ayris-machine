@@ -92,7 +92,7 @@ export default function VideoPlayer({
   return (
     <div
       ref={playerRef}
-      className="relative w-full max-w-4xl mx-auto"
+      className={`relative w-full max-w-4xl mx-auto ${isControlsOpen && "mt-12"}`}
       style={{
         backgroundImage: "url('/assets/ayris-vid-bg.png')",
         backgroundSize: "cover",
