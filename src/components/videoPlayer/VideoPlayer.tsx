@@ -94,8 +94,8 @@ export default function VideoPlayer({
       ref={playerRef}
       className="relative w-full max-w-4xl mx-auto"
       style={{
-        backgroundImage: "url('/assets/background-edit1.png')",
-        backgroundSize: "contain",
+        backgroundImage: "url('/assets/ayris-vid-bg.png')",
+        backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
         aspectRatio: "1.5/1",
@@ -103,7 +103,7 @@ export default function VideoPlayer({
     >
       <div className="absolute inset-0 flex flex-col items-center justify-center">
         {/* Main video container */}
-        <div className="relative w-[60%] aspect-video bg-black flex items-center justify-center">
+        <div className="relative w-[50%] aspect-video bg-black flex items-center justify-center border-2">
           {isLoading && (
             <div className="absolute inset-0 flex items-center justify-center">
               <div className="animate-spin h-8 w-8 text-white">✱</div>
@@ -138,7 +138,7 @@ export default function VideoPlayer({
 
         {/* Bottom control bar */}
         <div
-          className="w-[60%] h-10 mt-1 bg-gray-700 border border-gray-500 flex items-center justify-center cursor-pointer"
+          className="w-[50%] h-10 mt-1 bg-gray-700 border border-gray-500 flex items-center justify-center cursor-pointer"
           onClick={toggleControls}
         >
           <div className="w-32 h-32 flex items-center justify-center">
@@ -155,7 +155,7 @@ export default function VideoPlayer({
 
         {/* Expanded controls */}
         {isControlsOpen && (
-          <div ref={controlsRef} className="w-[60%]">
+          <div ref={controlsRef} className="w-[50%]">
             <VideoControls
               isPlaying={isPlaying}
               currentTime={currentTime}
