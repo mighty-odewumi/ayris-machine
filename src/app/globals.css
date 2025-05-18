@@ -59,10 +59,6 @@ body:active {
   position: relative;
 }
 
-#home-intro:hover {
-  /* cursor: url(""); */
-}
-
 .brown-top {
   display: block;
   color: white;
