@@ -145,8 +145,8 @@ export default function VideoPlayer({
             <div className="text-amber-300 text-sm">
               <Image
                 src="/assets/ayris-cursor-draggable-100x100.png"
-                width="100"
-                height="100"
+                width="150"
+                height="150"
                 alt="Ayris Beauty Machine"
               />
             </div>
