@@ -9,7 +9,7 @@ const unifrak = UnifrakturMaguntia({
 })
 
 export const metadata: Metadata = {
-  title: "Ayris Machine",
+  title: "Ayris Beauty Machine",
   description: "Ayris Beauty Machine",
 };
 
