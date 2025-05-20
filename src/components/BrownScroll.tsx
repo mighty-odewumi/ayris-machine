@@ -4,6 +4,7 @@ import { useState, useEffect, useRef } from "react";
 import ScrollBottomLinks from "./ScrollBottomLinks";
 import VideoPlayer from "./videoPlayer/VideoPlayer";
 import Image from "next/image";
+import Bulletin from "@/components/bulletins/Bulletin";
 
 export default function BrownScroll(
   { title, 
@@ -92,6 +93,8 @@ export default function BrownScroll(
             className="formatted-text" 
             dangerouslySetInnerHTML={{ __html: mainBody }} 
           />
+
+          <Bulletin />
 
           <ScrollBottomLinks />
         </article>
