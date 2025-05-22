@@ -5,6 +5,25 @@ import { createServerClient } from '@supabase/ssr'
 import { cookies } from 'next/headers'
 import { redirect } from 'next/navigation'
 import { revalidatePath } from 'next/cache'
+import { z } from "zod"
+
+const formSchema = z
+  .object({
+    username: z.string().min(3, "Username must be at least 3 characters"),
+    email: z.string().email("Please enter a valid email"),
+    repeatEmail: z.string().email("Please enter a valid email"),
+    password: z.string().min(8, "Password must be at least 8 characters"),
+    repeatPassword: z.string(),
+  })
+  .refine((data) => data.email === data.repeatEmail, {
+    message: "Emails do not match",
+    path: ["repeatEmail"],
+  })
+  .refine((data) => data.password === data.repeatPassword, {
+    message: "Passwords do not match",
+    path: ["repeatPassword"],
+  })
+
 
 export async function submitPost(formData: FormData) {
   try {
@@ -208,20 +227,69 @@ export async function login(formData: FormData) {
 export async function signup(formData: FormData) {
   const supabase = await createClient()
 
-  // type-casting here for convenience
-  // in practice, you should validate your inputs
   const data = {
-    email: formData.get('email') as string,
-    password: formData.get('password') as string,
+    username: formData.get("username") as string,
+    email: formData.get("email") as string,
+    repeatEmail: formData.get("repeatEmail") as string,
+    password: formData.get("password") as string,
+    repeatPassword: formData.get("repeatPassword") as string
   }
 
-  const { error } = await supabase.auth.signUp(data)
+  try {
+    // Validate the data
+    formSchema.parse(data);
 
-  if (error) {
-    console.log(error);
-    redirect('/error')
+    // Sign up with Supabase
+    const { data: authData, error } = await supabase.auth.signUp({
+      email: data.email,
+      password: data.password,
+      options: {
+        data: {
+          username: data.username,
+        }
+      }
+    })
+
+    // Handle Supabase error
+    if (error) {
+      console.error("Supabase auth error:", error);
+      return { success: false, message: error.message };
+    }
+
+    // Check if user was created and email sent
+    if (authData && authData.user) {
+      return { 
+        success: true, 
+        message: "Registration successful! Please check your email to confirm your account." 
+      };
+    } else {
+      return { 
+        success: false, 
+        message: "Something went wrong with your registration." 
+      };
+    }
+
+  } catch (error) {
+    if (error instanceof z.ZodError) {
+      // Return validation errors
+      return {
+        success: false,
+        errors: error.errors.reduce(
+          (acc, curr) => {
+            if (curr.path[0]) {
+              acc[curr.path[0] as string] = curr.message
+            }
+            return acc
+          },
+          {} as Record<string, string>,
+        ),
+      }
+    }
+
+    console.error("An error occurred while submitting data", error);
+    return { 
+      success: false, 
+      message: error instanceof Error ? error.message : "Registration failed" 
+    };
   }
-
-  revalidatePath('/', 'layout')
-  redirect('/register2')
 }

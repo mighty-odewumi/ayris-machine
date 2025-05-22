@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, type RefObject } from "react"
 
-export function useClickOutsideForVideo<T extends HTMLElement>(ref: RefObject<T>, handler: () => void, deps: any[] = []) {
+export function useClickOutsideForVideo<T extends HTMLElement>(ref: RefObject<T>, handler: () => void, deps: unknown[] = []) {
   const depsRef = useRef(deps);
   
   useEffect(() => {
