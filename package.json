@@ -15,13 +15,16 @@
     "@supabase/auth-helpers-nextjs": "^0.10.0",
     "@supabase/ssr": "^0.5.2",
     "@supabase/supabase-js": "^2.47.7",
+    "clsx": "^2.1.1",
     "image-map": "^2.0.1",
     "image-map-resizer": "^1.0.0",
     "next": "15.1.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "supabase": "^2.12.1",
-    "uuid": "^11.1.0"
+    "tailwind-merge": "^3.3.0",
+    "uuid": "^11.1.0",
+    "zod": "^3.25.17"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
