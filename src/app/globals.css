@@ -112,9 +112,12 @@ aside {
   cursor: url("../../public/assets/ayris-cursor-draggable-100x100.png"), auto;
 }
 
-/* #register {
-
-} */
+@media screen and (max-width: 470px) {
+  .bottom-inputs {
+    top: 62%;
+    font-size: xx-small;
+  }
+}
 
 @media screen and (max-width: 580px) {
   .brown-article {
@@ -138,8 +141,40 @@ aside {
 
 }
 
+@media screen and (min-width: 460px) {
+  .username-input {
+    top: 35%;
+  } 
+
+  .bottom-inputs {
+    top: 61.5%;  
+  }
+}
+
+@media screen and (min-width: 500px) {
+  .bottom-inputs {
+    top: 62.5%;  
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .bottom-inputs {
+    top: 63.5%;  
+  }
+}
+
+@media screen and (min-width: 700px) {
+  .username-input {
+    top: 37%;  
+  }
+}
+
 @media screen and (min-width: 1024px) {
   .formatted-text {
     padding: 8rem;
+  }
+
+  .bottom-inputs {
+    top: 64.5%;
   }
 }

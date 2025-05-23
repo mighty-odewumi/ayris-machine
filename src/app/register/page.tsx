@@ -108,7 +108,7 @@ export default function RegisterPage() {
         {/* Form overlaid on the background */}
         <form action={clientAction} className="absolute inset-0 flex flex-col items-center">
           {/* Username field - positioned exactly over the red box at the top */}
-          <div className="absolute top-[34.5%] left-[51%] transform -translate-x-1/2 w-[40px] md:w-[86px]">
+          <div className="username-input absolute top-[34.5%] left-[51%] transform -translate-x-1/2 w-[40px] md:w-[86px]">
             <input
               type="text"
               name="username"
@@ -122,7 +122,7 @@ export default function RegisterPage() {
           </div>
 
           {/* Email fields - left side */}
-          <div className="absolute top-[58.5%] left-[27.5%] md:top-[64.8%] md:left-[27.5%] transform -translate-x-1/2 flex flex-col" style={{ }}>
+          <div className="bottom-inputs absolute top-[58.5%] left-[27.5%] md:top-[64.8%] md:left-[27.5%] transform -translate-x-1/2 flex flex-col" style={{ }}>
             <div className="w-[40px] md:w-[90px] md:mb-[.5rem]">
               <input
                 type="email"
@@ -151,7 +151,7 @@ export default function RegisterPage() {
           </div>
 
           {/* Password fields - right side */}
-          <div className="absolute top-[58.5%] left-[74.5%] md:top-[67.5%] md:left-[71.5%] transform -translate-x-1/2 flex flex-col" style={{  }}>
+          <div className="bottom-inputs absolute top-[58.5%] left-[74.5%] md:top-[64.8%] md:le ft-[71.5%] transform -translate-x-1/2 flex flex-col" style={{  }}>
             <div className="w-[40px] md:w-[90px] md:mb-[.5rem]">
               <input
                 type="password"
@@ -183,7 +183,7 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={isSubmitting}
-            className="register absolute top-[66.5%] left-[51%] md:top-[65.4%] transform -translate-x-1/2 w-1/4 h-1/8 bg-transparent text-white font-medieval text-sm md:text-lg hover:text-red-500 transition-colors focus:outline-none disabled:opacity-70 disabled:hover:text-white"
+            className="register absolute top-[66.5%] left-[51%] md:top-[66.4%] lg:top-[66.8%] transform -translate-x-1/2 w-1/4 h-1/8 bg-transparent text-white font-medieval text-sm md:text-lg hover:text-red-500 transition-colors focus:outline-none disabled:opacity-70 disabled:hover:text-white"
             aria-label="Register"
           >
             {isSubmitting ? "..." : "Register"}
@@ -192,7 +192,7 @@ export default function RegisterPage() {
           {/* Main Page link */}
           <Link
             href="/"
-            className="absolute bottom-[8.5%] left-1/2 transform -translate-x-1/2 text-red-600 font-medieval text-lg hover:text-red-400 transition-colors"
+            className="absolute bottom-[8.5%] left-1/2 transform -translate-x-1/2 text-red-600 font-medieval text-lg hover:text-red-400 transition-colors opacity-100"
           >
             Main Page
           </Link>
