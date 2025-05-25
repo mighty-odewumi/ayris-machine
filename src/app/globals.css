@@ -4,6 +4,18 @@
 
 /* @import url('https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap'); */
 
+@font-face {
+  font-family: "Medieval";
+  src: url("/fonts/medieval.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.font-medieval {
+  font-family: "Medieval", serif;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -177,4 +189,328 @@ aside {
   .bottom-inputs {
     top: 64.5%;
   }
+}
+
+/* Method 2: Viewport Units with Locked Aspect Ratio */
+.viewport-container {
+  position: relative;
+  width: 100vmin;
+  height: 75vmin; /* 4:3 aspect ratio */
+  max-width: 1200px;
+  max-height: 900px;
+}
+
+.viewport-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Header positions using container-relative units */
+.vp-header-build {
+  position: absolute;
+  left: 25.5%;
+  top: 19.2%; 
+  width: 10%;
+  height: 3.9%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-medieval text-sm hover:text-red-500 transition-colors;
+}
+
+.vp-header-search {
+  position: absolute;
+  left: 65.0%;
+  top: 19.2%; 
+  width: 10%;
+  height: 3.9%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-medieval text-sm hover:text-red-500 transition-colors;
+}
+
+/* Left side positions */
+.vp-left-home {
+  position: absolute;
+  left: 3.0%;
+  top: 20.5%;
+  width: 8.3%;
+  height: 5.6%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-red-600 font-medieval text-base hover:text-red-400 transition-colors;
+}
+
+/* Left sidebar */
+.vp-left-dear {
+  position: absolute;
+  left: 3%;
+  top: 37.5%; 
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-medieval text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-left-era {
+  position: absolute;
+  left: 3.5%;
+  top: 41.5%; 
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-medieval text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-left-location {
+  position: absolute;
+  left: 3%;
+  top: 45.2%; 
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-medieval text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-left-medium {
+  position: absolute;
+  left: 3%;
+  top: 48%; 
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-medieval text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-left-philosophy {
+  position: absolute;
+  left: 4.2%;
+  top: 51.8%; 
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-medieval text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-left-mythology {
+  position: absolute;
+  left: 4.2%;
+  top: 54.7%; 
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-medieval text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-left-empresses {
+  position: absolute;
+  left: 4.2%;
+  top: 58.5%; 
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-medieval text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-left-dream {
+  position: absolute;
+  left: 0.5%;
+  top: 60.0%; 
+  width: 20%;
+  height: 5.3%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-medieval text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-left-etherith {
+  position: absolute;
+  left: 3.6%;
+  top: 63.5%; 
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-medieval text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-left-manifesto {
+  position: absolute;
+  left: 3.8%;
+  top: 78%; 
+  width: 8.3%;
+  height: 5.6%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-red-500 font-medieval hover:text-gray-300 transition-colors;
+  font-size: xx-small;
+}
+
+/* Right side positions */
+.vp-right-register {
+  position: absolute;
+  left: 87.5%;
+  top: 20%;
+  width: 8.3%;
+  height: 5.6%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-red-600 font-medieval text-xs hover:text-red-400 transition-colors text-center;
+}
+
+/* Right sidebar */
+.vp-right-banners {
+  position: absolute;
+  left: 89%;
+  top: 37.5%; 
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-medieval text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-right-heaven {
+  position: absolute;
+  left: 89%;
+  top: 41.5%;
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-medieval text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-right-music {
+  position: absolute;
+  left: 89.0%;
+  top: 44.7%;
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-medieval text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-right-library {
+  position: absolute;
+  left: 89.0%;
+  top: 47.5%; 
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-medieval text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-right-court {
+  position: absolute;
+  left: 89%;
+  top: 51.0%; 
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-medieval text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-right-empire {
+  position: absolute;
+  left: 89%;
+  top: 54.2%; 
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-medieval text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-right-army {
+  position: absolute;
+  left: 89%;
+  top: 57.0%; 
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-medieval text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-right-market {
+  position: absolute;
+  left: 89%;
+  top: 60.7%; 
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-medieval text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-right-treasury {
+  position: absolute;
+  left: 88.5%;
+  top: 63.5%; 
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-medieval text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-right-3d {
+  position: absolute;
+  left: 88.5%;
+  top: 78%; 
+  width: 8.3%;
+  height: 5.6%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-medieval text-base hover:text-red-500 transition-colors;
+}
+
+/* Footer positions */
+.vp-footer-profile {
+  position: absolute;
+  left: 15%; 
+  top: 80%;
+  width: 20%;
+  height: 13%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-medieval text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-footer-live {
+  position: absolute;
+  left: 30.7%;
+  top: 85%;
+  width: 6.7%;
+  height: 3.3%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-medieval text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-footer-home {
+  position: absolute;
+  left: 63%; 
+  top: 85%;
+  width: 6.7%;
+  height: 3.3%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-medieval text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-footer-category {
+  position: absolute;
+  left: 68%; 
+  top: 84%;
+  width: 20%;
+  height: 5.3%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-medieval text-xs hover:text-red-500 transition-colors;
+}
+
+/* Center content */
+.vp-center {
+  position: absolute;
+  left: 25%;
+  top: 44.4%;
+  width: 50%;
+  height: 22.2%;
+  pointer-events: auto;
+  @apply flex flex-col items-center justify-center text-center;
+}
+
+/* Exit */
+.vp-exit {
+  position: absolute;
+  left: 47.5%;
+  top: 85.5%;
+  width: 5%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-red-600 font-medieval text-xs hover:text-red-400 transition-colors;
 }
