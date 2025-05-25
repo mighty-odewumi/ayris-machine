@@ -2,14 +2,14 @@
 import Image from "next/image"
 import Link from "next/link"
 
-export default function ViewportLockedPage() {
+export default function MainNav() {
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-black">
       {/* Viewport Units with Fixed Aspect Ratio */}
       <div className="viewport-container">
         <Image
           src="/assets/ayrisPageStructure.jpg"
-          alt="Gothic navigation layout"
+          alt="Ayris Machine navigation layout"
           fill
           priority
           className="object-contain"
@@ -28,16 +28,16 @@ export default function ViewportLockedPage() {
           <Link href="/" className="vp-left-home">
             Home
           </Link>
-          <Link href="/den" className="vp-left-dear">
+          <Link href="/dear" className="vp-left-dear">
             Dear
           </Link>
-          <Link href="/eat-sale" className="vp-left-era">
+          <Link href="/era-style" className="vp-left-era">
             Era/Style
           </Link>
           <Link href="/location" className="vp-left-location">
             Location
           </Link>
-          <Link href="/alchemy" className="vp-left-medium">
+          <Link href="/medium" className="vp-left-medium">
             Medium
           </Link>
           <Link href="/philosophy" className="vp-left-philosophy">
@@ -49,10 +49,10 @@ export default function ViewportLockedPage() {
           <Link href="/empresses" className="vp-left-empresses">
             Empresses
           </Link>
-          <Link href="/dream-game" className="vp-left-dream">
+          <Link href="/dream-engine" className="vp-left-dream">
             Dream Engine
           </Link>
-          <Link href="/eternity" className="vp-left-etherith">
+          <Link href="/etherith" className="vp-left-etherith">
             Etherith
           </Link>
           <Link href="/manifesto" className="vp-left-manifesto">
