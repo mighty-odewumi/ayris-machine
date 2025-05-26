@@ -504,6 +504,126 @@ aside {
   @apply flex flex-col items-center justify-center text-center;
 }
 
+/* Gothic Login Interface Styles */
+.vp-login-container {
+  position: absolute;
+  left: 25%;
+  top: 30%;
+  width: 50%;
+  height: 40%;
+  pointer-events: auto;
+}
+
+.vp-login-background {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.vp-login-form {
+  position: absolute;
+  inset: 0;
+  pointer-events: auto;
+}
+
+/* Username Input - Top area of the ornate cross */
+.vp-login-username {
+  position: absolute;
+  left: 50%;
+  top: 25%;
+  width: 35%;
+  height: 8%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Password Input - Center area of the ornate cross */
+.vp-login-password {
+  position: absolute;
+  left: 50%;
+  top: 62%;
+  width: 20%;
+  height: 8%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Login Button - Bottom left area */
+.vp-login-button {
+  position: absolute;
+  left: 28%;
+  top: 80%;
+  width: 20%;
+  height: 10%;
+  transform: translateX(-50%);
+}
+
+/* Reset Password Button - Bottom right area */
+.vp-reset-button {
+  position: absolute;
+  right: 25%;
+  top: 80%;
+  width: 30%;
+  height: 10%;
+  transform: translateX(50%);
+}
+
+/* Gothic Input Styling */
+.gothic-input {
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  color: #d4af37;
+  font-family: "Old London", serif;
+  font-size: 0.875rem;
+  text-align: center;
+  padding: 0 8px;
+  transition: all 0.3s ease;
+}
+
+.gothic-input:focus {
+  outline: none;
+  border-color: #daa520;
+  background: rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0 10px rgba(218, 165, 32, 0.3);
+}
+
+.gothic-input::placeholder {
+  color: #8b7355;
+  font-family: "Old London", serif;
+}
+
+/* Gothic Button Styling */
+.vp-login-button,
+.vp-reset-button {
+  color: #d4af37;
+  font-family: "Old London", serif;
+  font-size: 0.75rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
+  
+}
+
+.vp-login-button:hover,
+.vp-reset-button:hover {
+  background: linear-gradient(145deg, #3a2018, #2c1810);
+  border-color: #daa520;
+  color: #ffd700;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 4px 8px rgba(0, 0, 0, 0.6), 0 0 15px rgba(218, 165, 32, 0.3);
+}
+
+.vp-login-button:active,
+.vp-reset-button:active {
+  transform: translateY(0);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
 /* Exit */
 .vp-exit {
   position: absolute;
@@ -514,3 +634,4 @@ aside {
   pointer-events: auto;
   @apply flex items-center justify-center text-red-600 font-oldlondon text-xs hover:text-red-400 transition-colors;
 }
+
