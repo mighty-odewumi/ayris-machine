@@ -539,6 +539,18 @@ aside {
   justify-content: center;
 }
 
+.vp-login-email {
+  position: absolute;
+  left: 50%;
+  /* top: 25%; */
+  width: 35%;
+  height: 8%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
 /* Password Input - Center area of the ornate cross */
 .vp-login-password {
   position: absolute;
