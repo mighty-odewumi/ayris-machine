@@ -1,8 +1,9 @@
 "use client"
 import Image from "next/image"
 import Link from "next/link"
+import { ReactNode } from "react"
 
-export default function PageWithSidebars({ centerContent }) {
+export default function PageWithSidebars({ centerContent }: { centerContent: ReactNode }) {
   return (
     <div className="min-h-screen w-full flex items-center justify-center bg-black">
       {/* Viewport Units with Fixed Aspect Ratio */}
@@ -111,7 +112,7 @@ export default function PageWithSidebars({ centerContent }) {
           </Link>
 
           {/* Center */}
-          {center}
+          {centerContent}
 
           {/* Exit */}
           <Link href="/exit" className="vp-exit">
