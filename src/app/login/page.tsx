@@ -1,18 +1,21 @@
 "use client"
 import { login } from '../actions';
-
 import Image from "next/image"
 import type React from "react"
-
 import { useState } from "react"
+import { useRouter } from "next/navigation"
 import PageWithSidebars from '@/components/PageWithSidebars';
+import SuccessPopup from '@/components/SuccessPopup';
 
 export default function Login() {
+  const router = useRouter();
   const [loginData, setLoginData] = useState({
     username: "",
     password: "",
     email: ""
   })
+  const [showSuccessPopup, setShowSuccessPopup] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target
@@ -24,6 +27,27 @@ export default function Login() {
     // Add reset password logic here
   }
 
+  // Custom form action to handle the login
+  async function handleLogin(formData: FormData) {
+    setIsSubmitting(true);
+    try {
+      // Call the server action
+      await login(formData);
+      
+      setShowSuccessPopup(true);
+      
+      setTimeout(() => {
+        router.push("/home");
+      }, 3000);
+      
+    } catch (error) {
+      console.error("Login failed:", error);
+      alert("Login failed. Please check your credentials.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }
+
   const content = (
     <div className="vp-login-container">
       {/* Login Interface Background */}
@@ -32,21 +56,9 @@ export default function Login() {
       </div>
 
       {/* Login Form Elements Positioned Over the Ornate Design */}
-      <form className="vp-login-form">
+      <form action={handleLogin} className="vp-login-form">
         {/* Username Input - Top area of the cross */}
         <div className="vp-login-username">
-          <input
-            type="text"
-            name="username"
-            value={loginData.username}
-            onChange={handleInputChange}
-            placeholder="Username"
-            className="gothic-input"
-            required
-          />
-        </div>
-
-        <div className="vp-login-email">
           <input
             type="email"
             name="email"
@@ -72,15 +84,33 @@ export default function Login() {
         </div>
 
         {/* Login Button - Bottom left of the cross */}
-        <button type="submit" formAction={login} className="vp-login-button">
-          Login
+        <button 
+          type="submit" 
+          className="vp-login-button"
+          disabled={isSubmitting}
+        >
+          {isSubmitting ? "..." : "Login"}
         </button>
 
         {/* Reset Password Button - Bottom right of the cross */}
-        <button type="button" onClick={handleResetPassword} className="vp-reset-button">
+        <button 
+          type="button" 
+          onClick={handleResetPassword} 
+          className="vp-reset-button"
+          disabled={isSubmitting}
+        >
           New Password
         </button>
       </form>
+      
+      {/* Success Popup */}
+      {showSuccessPopup && (
+        <SuccessPopup 
+          message="Login successful! Redirecting you to your dashboard..." 
+          onClose={() => setShowSuccessPopup(false)}
+          autoCloseTime={4000}
+        />
+      )}
     </div>
   );
 

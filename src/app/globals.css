@@ -647,3 +647,12 @@ aside {
   @apply flex items-center justify-center text-red-600 font-oldlondon text-xs hover:text-red-400 transition-colors;
 }
 
+@keyframes shrink {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+.animate-shrink {
+  animation: shrink 3s linear forwards;
+}
+

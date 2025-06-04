@@ -218,9 +218,9 @@ export async function login(formData: FormData) {
     redirect('/error')
   }
 
-  alert('Login successful!')
-  revalidatePath('/', 'layout')
-  redirect('/home')
+  return { success: true }
+  // revalidatePath('/', 'layout')
+  // redirect('/home')
 }
 
 export async function signup(formData: FormData) {
