@@ -618,8 +618,7 @@ aside {
   font-weight: bold;
   cursor: pointer;
   transition: all 0.3s ease;
-  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);
-  
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);  
 }
 
 .vp-login-button:hover,
@@ -655,4 +654,3 @@ aside {
 .animate-shrink {
   animation: shrink 3s linear forwards;
 }
-
