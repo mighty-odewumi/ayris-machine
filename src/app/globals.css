@@ -514,13 +514,13 @@ aside {
   pointer-events: auto;
 }
 
-.vp-login-background {
+.vp-login-background, .vp-temple-background {
   position: relative;
   width: 100%;
   height: 100%;
 }
 
-.vp-login-form {
+.vp-login-form, .vp-temple-content {
   position: absolute;
   inset: 0;
   pointer-events: auto;
@@ -644,6 +644,15 @@ aside {
   height: 2.8%;
   pointer-events: auto;
   @apply flex items-center justify-center text-red-600 font-oldlondon text-xs hover:text-red-400 transition-colors;
+}
+
+.vp-temple-container {
+  position: absolute;
+  left: 25%;
+  top: 30%;
+  width: 50%;
+  height: 40%;
+  pointer-events: auto;
 }
 
 @keyframes shrink {
