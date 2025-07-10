@@ -26,9 +26,9 @@ export default function PageWithSidebars({ centerContent }: { centerContent: Rea
           </Link>
 
           {/* Left Side */}
-          <Link href="/" className="vp-left-home">
-            Home
-          </Link>
+          <Link href="/temple" className="vp-left-home">
+            Temple Gate
+          </Link> 
           <Link href="/dear" className="vp-left-dear">
             Dear
           </Link>
@@ -101,7 +101,7 @@ export default function PageWithSidebars({ centerContent }: { centerContent: Rea
           <Link href="/edit-profile" className="vp-footer-profile">
             Edit Profile
           </Link>
-          <Link href="/live" className="vp-footer-live">
+          <Link href="http://webcam.hzs.be/" className="vp-footer-live">
             Live
           </Link>
           <Link href="/" className="vp-footer-home">

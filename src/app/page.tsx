@@ -48,17 +48,22 @@ export default function HomePage() {
             </div>
           )}
 
-          {/* <Image 
-            src="/assets/background.png" 
+          <br />
+          <br />
+          <br />
+
+          
+          <Image 
+            src="/assets/ayrisIntro.png" 
             sizes="100vw"
             alt="Background" 
-            width="200"
-            height="200"
+            width="100"
+            height="100"
             style={{
               width: '100%',
               height: 'auto',
             }} 
-          /> */}
+          />
 
           <p className="mt-[-6rem] whitespace-pre-line">
             {homePageText}
