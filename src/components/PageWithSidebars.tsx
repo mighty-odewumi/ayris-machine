@@ -26,9 +26,11 @@ export default function PageWithSidebars({ centerContent }: { centerContent: Rea
           </Link>
 
           {/* Left Side */}
-          <Link href="/temple" className="vp-left-home">
-            Temple Gate
-          </Link> 
+          <div className="vp-left-home">
+            <Link href="/temple">Temple</Link>
+            <br />
+            <Link href="/gate">Gate</Link>
+          </div> 
           <Link href="/dear" className="vp-left-dear">
             Dear
           </Link>
