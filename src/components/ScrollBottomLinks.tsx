@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function ScrollBottomLinks() {
   return (
     <aside className="my-6">
-      <Link href="/entry" className="underline bottom-links">Go to Home</Link>
+      <Link href="/home" className="underline bottom-links">Go to Home</Link>
       <br/>
       <Link href="/juliette" className="underline bottom-links">Juliette</Link>
       <br/>

@@ -4,6 +4,18 @@
 
 /* @import url('https://fonts.googleapis.com/css2?family=UnifrakturCook:wght@700&display=swap'); */
 
+@font-face {
+  font-family: "Old London";
+  src: url("../../public/assets/fonts/OldLondon.otf") format("opentype");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+.font-oldlondon {
+  font-family: "Old London", serif;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
@@ -30,12 +42,12 @@ body {
   color: var(--foreground);
   background: url("../../public/assets/background.png");
   background-color: color(display-p3 0.058 0.055 0.041);
+  font-family: "Old London", serif;
   font-optical-sizing: auto;
   font-weight: 400;
   font-style: normal;
   font-variation-settings: "wdth" 100;
   text-transform: uppercase; 
-  /* cursor: url("../../public/assets/ayris-default-cursor.png"), auto; */
   cursor: url("../../public/assets/ayris-default-cursor.png"), auto;
 }
 
@@ -57,10 +69,6 @@ body:active {
   justify-content: center;
   align-items: center; 
   position: relative;
-}
-
-#home-intro:hover {
-  /* cursor: url(""); */
 }
 
 .brown-top {
@@ -116,6 +124,13 @@ aside {
   cursor: url("../../public/assets/ayris-cursor-draggable-100x100.png"), auto;
 }
 
+@media screen and (max-width: 470px) {
+  .bottom-inputs {
+    top: 62%;
+    font-size: xx-small;
+  }
+}
+
 @media screen and (max-width: 580px) {
   .brown-article {
     padding: 10rem .5rem;
@@ -138,8 +153,513 @@ aside {
 
 }
 
+@media screen and (min-width: 460px) {
+  .username-input {
+    top: 35%;
+  } 
+
+  .bottom-inputs {
+    top: 61.5%;  
+  }
+}
+
+@media screen and (min-width: 500px) {
+  .bottom-inputs {
+    top: 62.5%;  
+  }
+}
+
+@media screen and (min-width: 600px) {
+  .bottom-inputs {
+    top: 63.5%;  
+  }
+}
+
+@media screen and (min-width: 700px) {
+  .username-input {
+    top: 37%;  
+  }
+}
+
 @media screen and (min-width: 1024px) {
   .formatted-text {
     padding: 8rem;
   }
+
+  .bottom-inputs {
+    top: 64.5%;
+  }
+}
+
+/* Method 2: Viewport Units with Locked Aspect Ratio */
+.viewport-container {
+  position: relative;
+  width: 100vmin;
+  height: 75vmin; /* 4:3 aspect ratio */
+  max-width: 1200px;
+  max-height: 900px;
+}
+
+.viewport-overlay {
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+}
+
+/* Header positions using container-relative units */
+.vp-header-build {
+  position: absolute;
+  left: 25.5%;
+  top: 19.2%; 
+  width: 10%;
+  height: 3.9%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-oldlondon text-sm hover:text-red-500 transition-colors;
+}
+
+.vp-header-search {
+  position: absolute;
+  left: 65.0%;
+  top: 19.2%; 
+  width: 10%;
+  height: 3.9%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-oldlondon text-sm hover:text-red-500 transition-colors;
+}
+
+/* Left side positions */
+.vp-left-home {
+  position: absolute;
+  left: 3.0%;
+  top: 20.5%;
+  width: 8.3%;
+  height: 5.6%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-red-600 font-oldlondon text-base hover:text-red-400 transition-colors;
+}
+
+/* Left sidebar */
+.vp-left-dear {
+  position: absolute;
+  left: 3%;
+  top: 37.5%; 
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-oldlondon text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-left-era {
+  position: absolute;
+  left: 3.5%;
+  top: 41.5%; 
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-oldlondon text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-left-location {
+  position: absolute;
+  left: 3%;
+  top: 45.2%; 
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-oldlondon text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-left-medium {
+  position: absolute;
+  left: 3%;
+  top: 48%; 
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-oldlondon text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-left-philosophy {
+  position: absolute;
+  left: 4.2%;
+  top: 51.8%; 
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-oldlondon text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-left-mythology {
+  position: absolute;
+  left: 4.2%;
+  top: 54.7%; 
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-oldlondon text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-left-empresses {
+  position: absolute;
+  left: 4.2%;
+  top: 58.5%; 
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-oldlondon text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-left-dream {
+  position: absolute;
+  left: 0.5%;
+  top: 60.0%; 
+  width: 20%;
+  height: 5.3%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-oldlondon text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-left-etherith {
+  position: absolute;
+  left: 3.6%;
+  top: 63.5%; 
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-oldlondon text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-left-manifesto {
+  position: absolute;
+  left: 3.8%;
+  top: 78%; 
+  width: 8.3%;
+  height: 5.6%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-red-500 font-oldlondon hover:text-gray-300 transition-colors;
+  font-size: xx-small;
+}
+
+/* Right side positions */
+.vp-right-register {
+  position: absolute;
+  left: 87.5%;
+  top: 20%;
+  width: 8.3%;
+  height: 5.6%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-red-600 font-oldlondon text-xs hover:text-red-400 transition-colors text-center;
+}
+
+/* Right sidebar */
+.vp-right-banners {
+  position: absolute;
+  left: 89%;
+  top: 37.5%; 
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-oldlondon text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-right-heaven {
+  position: absolute;
+  left: 89%;
+  top: 41.5%;
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-oldlondon text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-right-music {
+  position: absolute;
+  left: 89.0%;
+  top: 44.7%;
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-oldlondon text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-right-library {
+  position: absolute;
+  left: 89.0%;
+  top: 47.5%; 
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-oldlondon text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-right-court {
+  position: absolute;
+  left: 89%;
+  top: 51.0%; 
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-oldlondon text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-right-empire {
+  position: absolute;
+  left: 89%;
+  top: 54.2%; 
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-oldlondon text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-right-army {
+  position: absolute;
+  left: 89%;
+  top: 57.0%; 
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-oldlondon text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-right-market {
+  position: absolute;
+  left: 89%;
+  top: 60.7%; 
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-oldlondon text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-right-treasury {
+  position: absolute;
+  left: 88.5%;
+  top: 63.5%; 
+  width: 8.3%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-oldlondon text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-right-3d {
+  position: absolute;
+  left: 88.5%;
+  top: 78%; 
+  width: 8.3%;
+  height: 5.6%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-red-500 font-oldlondon text-base hover:text-gray-300 transition-colors;
+}
+
+/* Footer positions */
+.vp-footer-profile {
+  position: absolute;
+  left: 15%; 
+  top: 80%;
+  width: 20%;
+  height: 13%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-oldlondon text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-footer-live {
+  position: absolute;
+  left: 30.7%;
+  top: 85%;
+  width: 6.7%;
+  height: 3.3%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-oldlondon text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-footer-home {
+  position: absolute;
+  left: 63%; 
+  top: 85%;
+  width: 6.7%;
+  height: 3.3%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-oldlondon text-xs hover:text-red-500 transition-colors;
+}
+
+.vp-footer-category {
+  position: absolute;
+  left: 68%; 
+  top: 84%;
+  width: 20%;
+  height: 5.3%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-gray-300 font-oldlondon text-xs hover:text-red-500 transition-colors;
+}
+
+/* Center content */
+.vp-center {
+  position: absolute;
+  left: 25%;
+  top: 44.4%;
+  width: 50%;
+  height: 22.2%;
+  pointer-events: auto;
+  @apply flex flex-col items-center justify-center text-center;
+}
+
+/* Gothic Login Interface Styles */
+.vp-login-container {
+  position: absolute;
+  left: 25%;
+  top: 30%;
+  width: 50%;
+  height: 40%;
+  pointer-events: auto;
+}
+
+.vp-login-background, .vp-temple-background {
+  position: relative;
+  width: 100%;
+  height: 100%;
+}
+
+.vp-login-form, .vp-temple-content {
+  position: absolute;
+  inset: 0;
+  pointer-events: auto;
+}
+
+/* Username Input - Top area of the ornate cross */
+.vp-login-username {
+  position: absolute;
+  left: 50%;
+  top: 25%;
+  width: 35%;
+  height: 8%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.vp-login-email {
+  position: absolute;
+  left: 50%;
+  /* top: 25%; */
+  width: 35%;
+  height: 8%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Password Input - Center area of the ornate cross */
+.vp-login-password {
+  position: absolute;
+  left: 50%;
+  top: 62%;
+  width: 20%;
+  height: 8%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* Login Button - Bottom left area */
+.vp-login-button {
+  position: absolute;
+  left: 28%;
+  top: 80%;
+  width: 20%;
+  height: 10%;
+  transform: translateX(-50%);
+}
+
+/* Reset Password Button - Bottom right area */
+.vp-reset-button {
+  position: absolute;
+  right: 25%;
+  top: 80%;
+  width: 30%;
+  height: 10%;
+  transform: translateX(50%);
+}
+
+/* Gothic Input Styling */
+.gothic-input {
+  width: 100%;
+  height: 100%;
+  border-radius: 4px;
+  color: #d4af37;
+  font-family: "Old London", serif;
+  font-size: 0.875rem;
+  text-align: center;
+  padding: 0 8px;
+  transition: all 0.3s ease;
+}
+
+.gothic-input:focus {
+  outline: none;
+  border-color: #daa520;
+  background: rgba(0, 0, 0, 0.8);
+  box-shadow: 0 0 10px rgba(218, 165, 32, 0.3);
+}
+
+.gothic-input::placeholder {
+  color: #8b7355;
+  font-family: "Old London", serif;
+}
+
+/* Gothic Button Styling */
+.vp-login-button,
+.vp-reset-button {
+  color: #d4af37;
+  font-family: "Old London", serif;
+  font-size: 0.75rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.8);  
+}
+
+.vp-login-button:hover,
+.vp-reset-button:hover {
+  background: linear-gradient(145deg, #3a2018, #2c1810);
+  border-color: #daa520;
+  color: #ffd700;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.2), 0 4px 8px rgba(0, 0, 0, 0.6), 0 0 15px rgba(218, 165, 32, 0.3);
+}
+
+.vp-login-button:active,
+.vp-reset-button:active {
+  transform: translateY(0);
+  box-shadow: inset 0 2px 4px rgba(0, 0, 0, 0.3), 0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+/* Exit */
+.vp-exit {
+  position: absolute;
+  left: 47.5%;
+  top: 85.5%;
+  width: 5%;
+  height: 2.8%;
+  pointer-events: auto;
+  @apply flex items-center justify-center text-red-600 font-oldlondon text-xs hover:text-red-400 transition-colors;
+}
+
+.vp-temple-container {
+  position: absolute;
+  left: 25%;
+  top: 30%;
+  width: 50%;
+  height: 40%;
+  pointer-events: auto;
+}
+
+@keyframes shrink {
+  from { width: 100%; }
+  to { width: 0%; }
+}
+
+.animate-shrink {
+  animation: shrink 3s linear forwards;
 }

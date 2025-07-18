@@ -1,9 +1,7 @@
 import { useEffect, RefObject } from 'react'
 
 export function useClickOutside(
-  ref: RefObject<HTMLElement>, 
-  handler: () => void
-) {
+controlsRef: RefObject<HTMLDivElement | null>, p0: () => void, p1: boolean[], ref: RefObject<HTMLElement>, handler: () => void) {
   useEffect(() => {
     function handleClickOutside(event: MouseEvent) {
       if (ref.current && !ref.current.contains(event.target as Node)) {
