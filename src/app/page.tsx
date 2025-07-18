@@ -1,10 +1,11 @@
 "use client";
 
+import { useState } from "react";
 import ScrollBottomLinks from "@/components/ScrollBottomLinks";
 import VideoPlayer from "@/components/videoPlayer/VideoPlayer";
 import { homePageText } from "@/constants/homePageText";
 import Image from "next/image";
-import { useState } from "react";
+import { homeImages } from "@/utils/homeImages";
 
 export default function HomePage() {
   const [showVideo, setShowVideo] = useState(false);
@@ -52,19 +53,34 @@ export default function HomePage() {
           <br />
           <br />
 
-          
-          <Image 
-            src="/assets/ayrisIntro.png" 
-            sizes="100vw"
-            alt="Background" 
-            width="100"
-            height="100"
-            style={{
-              width: '100%',
-              height: 'auto',
-            }} 
-          />
+          {homeImages.map((img) => {
+            return (
+              <>
+                <h2 className="font-bold text-2xl text-center mt-20"
+                >
+                  {img.heading}
+                </h2>
 
+                {(img.image != "") && <Image 
+                  key={img.id}
+                  src={img.image} 
+                  alt={img.heading} 
+                  width={100} 
+                  height={100} 
+                  className="mb-4"
+                  sizes="100vw"
+                  style={{
+                    width: '100%',
+                    height: 'auto',
+                  }} 
+                />}
+              </>
+            )
+          })}
+
+          <h2 className="text-3xl">
+            AHMAHRASZEA THE FAERY PLANET
+          </h2>
           <p className="mt-[-6rem] whitespace-pre-line">
             {homePageText}
           </p>
