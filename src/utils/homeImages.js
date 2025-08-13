@@ -127,12 +127,12 @@ export const homeImages = [
   {
     "id": 26,
     "heading": "Amphoarena of Emohrea",
-    "image": "/assets/homeImages/homeImg26",
+    "image": "/assets/homeImages/homeImg26.png",
   },
   {
     "id": 27,
     "heading": "Emohrea",
-    "image": "/assets/homeImages/homeImg27",
+    "image": "/assets/homeImages/homeImg27.png",
   },
   {
     "id": 28,
@@ -141,8 +141,8 @@ export const homeImages = [
   },
   {
     "id": 29,
-    "heading": "",
-    "image": "/assets/homeImages/homeImg29",
+    "heading": "Vempire Capital",
+    "image": "/assets/homeImages/homeImg29.png",
   },
   {
     "id": 30,
