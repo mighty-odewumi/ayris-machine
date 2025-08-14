@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import ScrollBottomLinks from "@/components/ScrollBottomLinks";
-import VideoPlayer from "@/components/videoPlayer/VideoPlayer";
+// import VideoPlayer from "@/components/videoPlayer/VideoPlayer";
 import { homePageText } from "@/constants/homePageText";
 import Image from "next/image";
 import { homeImages } from "@/utils/homeImages";

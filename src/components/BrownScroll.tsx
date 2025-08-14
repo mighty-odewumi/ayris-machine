@@ -2,7 +2,7 @@
 
 import { useState, useEffect, useRef } from "react";
 import ScrollBottomLinks from "./ScrollBottomLinks";
-import VideoPlayer from "./videoPlayer/VideoPlayer";
+// import VideoPlayer from "./videoPlayer/VideoPlayer";
 import Image from "next/image";
 import Bulletin from "@/components/bulletins/Bulletin";
 
@@ -13,13 +13,13 @@ export default function BrownScroll(
     mainBody, 
   }: { 
   title: string; 
-  artistName: string; 
-  objectName: string; 
+  artistName?: string; 
+  objectName?: string; 
   mainBody: string;
 }) {
 
   const [showVideo, setShowVideo] = useState(false);
-  const videoRef = useRef<HTMLDivElement>(null);
+  // const videoRef = useRef<HTMLDivElement>(null);
   // const topBarRef = useRef<HTMLDivElement>(null);
 
   // Handle top bar click to show video
