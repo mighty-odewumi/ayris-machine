@@ -26,8 +26,6 @@ export default function HomePage() {
         <article className="home-article brown-article">
 
           <div 
-            // onClick={handleShowVideo} 
-            // ref={topBarRef}
             className="scroll-top flex flex-col mt-[-8rem] cursor-pointer relative"
           >
             <Link href="satan-introduces-himself" data-align="center" className="brown-top uppercase text-xs underline">{title}</Link>
