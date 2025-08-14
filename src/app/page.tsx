@@ -55,7 +55,7 @@ export default function HomePage() {
 
           {homeImages.map((img) => {
             return (
-              <>
+              <div key={img.id}>
                 <h2 className="font-bold text-2xl text-center mt-20"
                 >
                   {img.heading}
@@ -74,7 +74,7 @@ export default function HomePage() {
                     height: 'auto',
                   }} 
                 />}
-              </>
+              </div>
             )
           })}
 

@@ -146,18 +146,18 @@ export const homeImages = [
   },
   {
     "id": 30,
-    "heading": "",
-    "image": "/assets/homeImages/homeImg30",
+    "heading": "Vempire Lane",
+    "image": "/assets/homeImages/homeImg30.png",
   },
   {
     "id": 31,
-    "heading": "",
-    "image": "/assets/homeImages/homeImg31",
+    "heading": "AnaehtheanA Garden",
+    "image": "/assets/homeImages/homeImg31.png",
   },
   {
     "id": 32,
-    "heading": "",
-    "image": "/assets/homeImages/homeImg32",
+    "heading": "Shieldmaidens Districts",
+    "image": "/assets/homeImages/homeImg32.png",
   },
   {
     "id": 33,
