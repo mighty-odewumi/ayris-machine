@@ -38,10 +38,10 @@ export default function BrownScroll(
           </div>
 
           <div 
-            className="relative flex items-center justify-center w-full h-20 bg-gray-400"
+            className="relative flex items-center justify-center w-full h-20 mt-20 bg-gray-400"
             onClick={handleShowVideo}
           > 
-            Tap here to play Video
+            Tap here to {showVideo == true ? "close" : "play"} Video
             <Image 
               src={"/assets/ayris-cursor-draggable-100x100.png"}
               width={500}
@@ -52,7 +52,7 @@ export default function BrownScroll(
           </div>
 
           {showVideo && (
-            <div className="top-0 z-40 mb-8 mt-20 shadow-lg" onClick={e => e.stopPropagation()}>
+            <div className="top-0 z-40 mb-8 mt-4 shadow-lg" onClick={e => e.stopPropagation()}>
               <iframe
                 width="560"
                 height="315"
