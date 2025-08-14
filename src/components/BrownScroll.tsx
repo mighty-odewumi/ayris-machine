@@ -75,20 +75,20 @@ export default function BrownScroll(
           </div>
 
           {showVideo && (
-            <div 
-              className="top-0 z-40 mb-4 shadow-lg" 
-              ref={videoRef} 
-              onClick={(e) => e.stopPropagation()}
-            >
-              <VideoPlayer
-                src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-                title={title}
-                artist={artistName}
-                artType={objectName}
-              />
+            <div className="top-0 z-40 mb-8 shadow-lg" onClick={e => e.stopPropagation()}>
+              <iframe
+                width="560"
+                height="315"
+                src="https://www.youtube.com/embed/krmX-bk3eHg"
+                title="YouTube video player"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full aspect-video"
+              ></iframe>
             </div>
           )}
-
+          
           <section 
             className="formatted-text" 
             dangerouslySetInnerHTML={{ __html: mainBody }} 

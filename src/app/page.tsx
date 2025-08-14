@@ -6,6 +6,7 @@ import VideoPlayer from "@/components/videoPlayer/VideoPlayer";
 import { homePageText } from "@/constants/homePageText";
 import Image from "next/image";
 import { homeImages } from "@/utils/homeImages";
+import Link from "next/link";
 
 export default function HomePage() {
   const [showVideo, setShowVideo] = useState(false);
@@ -14,6 +15,10 @@ export default function HomePage() {
     setShowVideo(!showVideo);
   }
 
+  const title = "Satan Introduces Himself";
+  const objectName = ""
+  const artistName = ""
+
   return (
     <>
       <div id="home-intro">
@@ -21,7 +26,17 @@ export default function HomePage() {
         <article className="home-article brown-article">
 
           <div 
-            className="relative flex items-center justify-center w-full h-20 bg-gray-400 mb-8"
+            // onClick={handleShowVideo} 
+            // ref={topBarRef}
+            className="scroll-top flex flex-col mt-[-8rem] cursor-pointer relative"
+          >
+            <Link href="satan-introduces-himself" data-align="center" className="brown-top uppercase text-xs underline">{title}</Link>
+            <time data-align="center" className="brown-top uppercase text-xs">{objectName}</time>
+            <time data-align="center" className="brown-top uppercase text-xs">{artistName}</time>
+          </div>
+
+          <div 
+            className="relative flex items-center justify-center w-full h-20 bg-gray-400 mb-8 mt-20"
             onClick={handleShowVideo}
           > 
             Tap here to play Video
@@ -34,18 +49,31 @@ export default function HomePage() {
             />
           </div>
 
-          {showVideo && (
+          {/* {showVideo && (
             <div 
               className="top-0 z-40 mb-8 shadow-lg" 
               // ref={videoRef} 
               onClick={(e) => e.stopPropagation()}
             >
               <VideoPlayer
-                src="https://commondatastorage.googleapis.com/gtv-videos-bucket/sample/BigBuckBunny.mp4"
-                // title={"Ayris Beauty Machine"}
-                // artist={"Ayris Beauty Machine"}
-                // artType={"Ayris Beauty Machine"}
+                src="https://www.youtube.com/watch?v=krmX-bk3eHg"
               />
+            </div>
+          )} */}
+
+
+          {showVideo && (
+            <div className="top-0 z-40 mb-8 shadow-lg" onClick={e => e.stopPropagation()}>
+              <iframe
+                width="560"
+                height="315"
+                src="https://www.youtube.com/embed/krmX-bk3eHg"
+                title="Ayris Machine Intro video"
+                frameBorder="0"
+                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                allowFullScreen
+                className="w-full aspect-video"
+              ></iframe>
             </div>
           )}
 
