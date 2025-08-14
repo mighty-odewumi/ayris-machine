@@ -162,32 +162,32 @@ export const homeImages = [
   {
     "id": 33,
     "heading": "",
-    "image": "/assets/homeImages/homeImg33",
+    "image": "/assets/homeImages/homeImg33.png",
   },
   {
     "id": 34,
     "heading": "",
-    "image": "/assets/homeImages/homeImg34",
+    "image": "/assets/homeImages/homeImg34.png",
   },
   {
     "id": 35,
-    "heading": "",
-    "image": "/assets/homeImages/homeImg35",
+    "heading": "Empress See",
+    "image": "/assets/homeImages/homeImg35.png",
   },
   {
     "id": 36,
-    "heading": "",
-    "image": "/assets/homeImages/homeImg36",
+    "heading": "ElvinLore",
+    "image": "/assets/homeImages/homeImg36.png",
   },
   {
     "id": 37,
-    "heading": "",
-    "image": "/assets/homeImages/homeImg37",
+    "heading": "Rivendell",
+    "image": "/assets/homeImages/homeImg37.png",
   },
   {
     "id": 38,
-    "heading": "",
-    "image": "/assets/homeImages/homeImg38",
+    "heading": "OuhwvshTheaneA",
+    "image": "/assets/homeImages/homeImg38.png",
   },
   {
     "id": 39,
