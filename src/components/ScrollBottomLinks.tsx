@@ -16,6 +16,10 @@ export default function ScrollBottomLinks() {
       <br/>
       <Link href="/biblenewtestament" className="underline bottom-links">Bible New Testament</Link>
       <br/>
+      <Link href="/etherith-end-of-reality" className="underline bottom-links">Etherith End of Reality</Link>
+      <br/>
+      <Link href="/etherith-manifest" className="underline bottom-links">Etherith Manifest</Link>
+      <br/>
       <Link href="/final-book-selection" className="underline bottom-links">Final Book Selection</Link>
       <br/>
       <Link href="/openlettertotheneodecadentmovement" className="underline bottom-links">Open Letter to the Neodecadent Movement</Link>
