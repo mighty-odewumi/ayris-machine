@@ -79,6 +79,53 @@ export default function HomePage() {
           <br />
           <br />
 
+          <iframe
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/aoMI42TUBaI"
+            title="Ayris Machine Intro video"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="w-full aspect-video"
+          ></iframe>
+
+          <br />
+          <br />
+          <br />
+
+          <iframe
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/jLb8jn_gqDk"
+            title="Ayris Machine Intro video"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="w-full aspect-video"
+          ></iframe>
+
+          <br />
+          <br />
+          <br />
+
+
+          <iframe
+            width="560"
+            height="315"
+            src="https://www.youtube.com/embed/WWREdxDcdfs"
+            title="Ayris Machine Intro video"
+            frameBorder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowFullScreen
+            className="w-full aspect-video"
+          ></iframe>
+
+          <br />
+          <br />
+          <br />
+
+
           {homeImages.map((img) => {
             return (
               <div key={img.id}>
