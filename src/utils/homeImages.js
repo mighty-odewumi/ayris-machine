@@ -17,27 +17,27 @@ export const homeImages = [
   {
     "id": 4,
     "heading": "",
-    "image": "/assets/homeImages/homeImg4.jpg",
+    "image": "/assets/homeImages/homeImg4.png",
   },
   {
     "id": 5,
     "heading": "",
-    "image": "/assets/homeImages/homeImg5.jpg",
+    "image": "/assets/homeImages/homeImg5.png",
   },
   {
     "id": 6,
     "heading": "",
-    "image": "/assets/homeImages/homeImg6.jpg",
+    "image": "/assets/homeImages/homeImg6.png",
   },
   {
     "id": 7,
     "heading": "",
-    "image": "/assets/homeImages/homeImg7.jpg",
+    "image": "/assets/homeImages/homeImg7.png",
   },
   {
     "id": 8,
     "heading": "",
-    "image": "/assets/homeImages/homeImg8.jpg",
+    "image": "/assets/homeImages/homeImg8.png",
   },
   {
     "id": 9,
